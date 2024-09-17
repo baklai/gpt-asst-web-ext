@@ -4,7 +4,6 @@ This extension adds an AI to your browser that can conduct conversations on your
 
 ## Documentation with web-ext
 
-- [Getting started with web-ext][web-ext-user-docs]
 - [Command reference](https://extensionworkshop.com/documentation/develop/web-ext-command-reference/)
 
 Here are the commands you can run. Click on each one for detailed documentation or use `--help` on the command line, such as `web-ext build --help`.
