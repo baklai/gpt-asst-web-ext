@@ -1,16 +1,30 @@
-const DEFAULT_SYSTEM_MESSAGE = 'You are a helpful assistant.';
+const GPT_MESSAGES_BOX = [];
 
-const MESSAGE_BOX = [];
-
-browser.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((data, sender, sendResponse) => {
   if (data.action === 'mgs-from-webtg') {
-    MESSAGE_BOX.push({ role: 'user', content: data.message });
-    await sendMessageToOpenAI(data.message);
+    GPT_MESSAGES_BOX.push({ role: 'user', content: data.message });
+
+    sendMessagesToOpenAI(GPT_MESSAGES_BOX)
+      .then(response => {
+        GPT_MESSAGES_BOX.push({ role: 'assistant', content: response });
+
+        return sendResponse({ action: 'msg-from-gpt', message: response });
+      })
+      .catch(err => {
+        sendResponse({ action: 'msg-from-gpt', message: err.message });
+      });
+
+    return true;
   }
 });
 
-async function sendMessageToOpenAI(message) {
+async function sendMessagesToOpenAI(messages) {
   const { yourself, apikey } = await browser.storage.local.get();
+
+  if (!apikey) throw new Error('🤷');
+
+  const DEFAULT_SYSTEM_MESSAGE = 'You are a helpful assistant.';
+  const API_URL = 'https://api.openai.com/v1/chat/completions';
 
   const requestData = {
     model: 'gpt-4o-mini',
@@ -19,12 +33,12 @@ async function sendMessageToOpenAI(message) {
         role: 'system',
         content: yourself || DEFAULT_SYSTEM_MESSAGE
       },
-      ...MESSAGE_BOX
+      ...messages // [{ role: 'user', content: 'this is message'}]
     ]
   };
 
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,27 +56,11 @@ async function sendMessageToOpenAI(message) {
     const [choice] = data.choices;
 
     if (data?.choices && choice?.message?.content) {
-      await sendMessageToTabWebTG(choice.message.content);
+      return choice.message.content;
     }
-  } catch (err) {
-    await sendMessageToTabWebTG('🤷');
-    console.error('There was an error:', err.message);
-  }
-}
 
-async function sendMessageToTabWebTG(message) {
-  try {
-    const tabs = await browser.tabs.query({});
-    const webTgTab = tabs.find(tab => tab.title.includes('Telegram Web'));
-    if (webTgTab) {
-      try {
-        MESSAGE_BOX.push({ role: 'assistant', content: message });
-        browser.tabs.sendMessage(webTgTab.id, message);
-      } catch (err) {
-        console.error('ERROR:', err.message);
-      }
-    }
+    throw new Error('🤷');
   } catch (err) {
-    console.error('ERROR:', err.message);
+    throw new Error('🤷');
   }
 }

@@ -12,7 +12,7 @@
     </style>
   </head>
   <body>
-    <div id="app" v-cloak>
+    <div id="app" v-cloak style="display: flex; flex-direction: column; row-gap: 0.5rem">
       <div style="display: flex; align-items: center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -33,49 +33,31 @@
 
       <hr />
 
-      <label for="yourself">About yourself</label>
-      <textarea
-        id="yourself"
-        rows="5"
-        v-model="yourself"
-        placeholder="Enter information about yourself"
-      ></textarea>
-
-      <div style="margin: 1rem 0">
-        <label for="chatlist">Your chat list</label>
-        <select id="chatlist" name="chat" v-model="chatid" @click="onOpenSelect">
-          <option value="" key="0" :selected="!chatid">Select chat...</option>
-
-          <option
-            :value="chat.id"
-            v-for="(chat, index) in chatlist"
-            :key="chat.id"
-            :selected="chat.id === chatid"
-          >
-            {{ chat.title }}
-          </option>
-        </select>
+      <div>
+        <label for="yourself">About yourself</label>
+        <textarea
+          id="yourself"
+          rows="5"
+          v-model="yourself"
+          placeholder="Enter information about yourself"
+        ></textarea>
       </div>
 
-      <label for="apikey">OpenAI API</label>
-      <input
-        id="apikey"
-        type="password"
-        v-model="apikey"
-        placeholder="Enter your OpenAI API key"
-        v-if="!apikey"
-      />
+      <div>
+        <label for="apikey">OpenAI API</label>
+        <input
+          id="apikey"
+          type="password"
+          v-model="apikey"
+          placeholder="Enter your OpenAI API key"
+          v-if="!apikey"
+        />
+      </div>
 
-      <button style="margin-top: 0.5rem" @click="onResetApiKey" :disabled="!apikey">
-        Reset OpenAI API Key
-      </button>
-
-      <hr />
-
-      <button :disabled="!apikey || !chatid" @click="onOpenChat">Open Chat</button>
+      <button @click="onResetKey" :disabled="!apikey">Reset OpenAI API Key</button>
     </div>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>
