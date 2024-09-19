@@ -2,16 +2,23 @@ const GPT_MESSAGES_BOX = [];
 
 browser.runtime.onMessage.addListener((data, sender, sendResponse) => {
   if (data.action === 'mgs-from-webtg') {
-    GPT_MESSAGES_BOX.push({ role: 'user', content: data.message });
+    GPT_MESSAGES_BOX.push({ role: 'user', chatid: data.chatid, content: data.message });
 
-    sendMessagesToOpenAI(GPT_MESSAGES_BOX)
+    const messages = GPT_MESSAGES_BOX.filter(item => item.chatid === data.chatid).map(item => {
+      return {
+        role: item.role,
+        content: item.content
+      };
+    });
+
+    sendMessagesToOpenAI(messages)
       .then(response => {
-        GPT_MESSAGES_BOX.push({ role: 'assistant', content: response });
+        GPT_MESSAGES_BOX.push({ role: 'assistant', chatid: data.chatid, content: response });
 
-        return sendResponse({ action: 'msg-from-gpt', message: response });
+        return sendResponse({ action: 'msg-from-gpt', chatid: data.chatid, message: response });
       })
       .catch(err => {
-        sendResponse({ action: 'msg-from-gpt', message: err.message });
+        return sendResponse({ action: 'msg-from-gpt', chatid: data.chatid, message: err.message });
       });
 
     return true;

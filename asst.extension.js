@@ -247,6 +247,7 @@ class Assistant extends Logger {
     try {
       const { message: responseMessage } = await browserRuntimeSendMessage({
         action: 'mgs-from-webtg',
+        chatid: this.chatid,
         message
       });
       this.log(`RESPONSE MESSAGE FROM GPT: ${responseMessage}`);
@@ -328,8 +329,21 @@ function waitForSelectorAll(selector, timeout = 5000) {
 
 async function simulateTyping(element, value, delay = 200) {
   element.textContent = '';
+
+  element.focus();
+
+  element.click();
+
   for (let char of value) {
+    const keydownEvent = new KeyboardEvent('keydown', {
+      bubbles: true,
+      cancelable: true,
+      key: char
+    });
+    element.dispatchEvent(keydownEvent);
+
     element.textContent += char;
+
     const inputEvent = new InputEvent('input', {
       bubbles: true,
       cancelable: true,
@@ -337,13 +351,22 @@ async function simulateTyping(element, value, delay = 200) {
     });
     element.dispatchEvent(inputEvent);
 
+    const keyupEvent = new KeyboardEvent('keyup', {
+      bubbles: true,
+      cancelable: true,
+      key: char
+    });
+    element.dispatchEvent(keyupEvent);
+
     await new Promise(resolve => setTimeout(resolve, delay));
   }
+
+  element.blur();
 }
 
-async function browserRuntimeSendMessage({ action, message }) {
+async function browserRuntimeSendMessage({ action, chatid, message }) {
   try {
-    return await browser.runtime.sendMessage({ action, message });
+    return await browser.runtime.sendMessage({ action, chatid, message });
   } catch (err) {
     throw new Error(err.message);
   }
