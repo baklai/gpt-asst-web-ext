@@ -1,3 +1,33 @@
+(function () {
+  setTimeout(async () => {
+    try {
+      const { apikey } = await chrome.storage.local.get();
+
+      const assistant = new Assistant({ apiKey: apikey });
+
+      window.addEventListener('hashchange', function () {
+        if (assistant.chatid) {
+          assistant.closed();
+        }
+      });
+
+      window.addEventListener('popstate', function (event) {
+        if (assistant.chatid) {
+          assistant.closed();
+        }
+      });
+
+      assistant.clear();
+
+      const { name, description, version } = chrome.runtime.getManifest();
+
+      assistant.bage(name, description, version);
+    } catch (err) {
+      console.error(err);
+    }
+  }, 5000);
+})();
+
 class Logger {
   constructor() {}
 
@@ -65,7 +95,7 @@ class Assistant extends Logger {
     console.log(
       `%c🤖 ${name}\n%c${description}\n%cv${version}`,
       'color: tomato; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; display: block; padding: 10px 0 10px 0;',
-      'color: gray; font-size: 1rem; font-weight: bold; text-transform: uppercase; display: block; padding: 10px 0 10px 0;',
+      'color: gray; font-size: 1rem; display: block; padding: 10px 0 10px 0;',
       'color: gray; font-size: 1rem; display: block; width: 100%; padding-bottom: 10px;'
     );
     console.groupEnd();

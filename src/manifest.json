@@ -32,7 +32,7 @@
   "content_scripts": [
     {
       "matches": ["*://web.telegram.org/*"],
-      "js": ["src/asst.extension.js", "src/asst.telegram.js"],
+      "js": ["src/asst.extension.js"],
       "run_at": "document_end"
     }
   ],
