@@ -62,12 +62,12 @@ onMounted(async () => {
         the Telegram messenger
       </p>
 
-      <div class="mt-6 md:mt-8">
+      <div class="mt-6 md:mt-8 hidden md:block">
         <h3 class="font-medium text-gray-600 dark:text-gray-300">Follow us</h3>
 
         <div class="flex mt-4 -mx-1.5">
           <a
-            class="mx-1.5 dark:hover:text-blue-400 text-gray-400 transition-colors duration-300 transform hover:text-blue-500"
+            class="mx-1.5 dark:hover:text-orange-400 text-gray-400 transition-colors duration-300 transform hover:text-orange-500"
             target="_blank"
             href="https://github.com/baklai"
           >
@@ -81,7 +81,7 @@ onMounted(async () => {
           </a>
 
           <a
-            class="mx-1.5 dark:hover:text-blue-400 text-gray-400 transition-colors duration-300 transform hover:text-blue-500"
+            class="mx-1.5 dark:hover:text-orange-400 text-gray-400 transition-colors duration-300 transform hover:text-orange-500"
             target="_blank"
             href="https://www.linkedin.com/in/baklai/"
           >
@@ -95,7 +95,7 @@ onMounted(async () => {
           </a>
 
           <a
-            class="mx-1.5 dark:hover:text-blue-400 text-gray-400 transition-colors duration-300 transform hover:text-blue-500"
+            class="mx-1.5 dark:hover:text-orange-400 text-gray-400 transition-colors duration-300 transform hover:text-orange-500"
             target="_blank"
             href="https://www.facebook.com/dmitrii.baklai"
           >
@@ -109,7 +109,7 @@ onMounted(async () => {
           </a>
 
           <a
-            class="mx-1.5 dark:hover:text-blue-400 text-gray-400 transition-colors duration-300 transform hover:text-blue-500"
+            class="mx-1.5 dark:hover:text-orange-400 text-gray-400 transition-colors duration-300 transform hover:text-orange-500"
             target="_blank"
             href="https://www.instagram.com/baklai.di/"
           >
@@ -126,7 +126,7 @@ onMounted(async () => {
     </div>
 
     <div class="flex flex-col justify-center w-full p-8 pt-0 lg:w-1/2 lg:px-12 xl:px-24">
-      <div class="-mx-2 md:items-center md:flex" v-if="!apikey">
+      <div class="-mx-2 flex flex-col" v-if="!apikey">
         <div class="flex-1 px-2 mt-4 md:mt-0">
           <label for="apikey" class="block mb-2 text-sm font-bold text-gray-600 dark:text-gray-200">
             OpenAI API
@@ -142,18 +142,6 @@ onMounted(async () => {
             Input OpenAI API key you're ready to make your first API request.
           </p>
         </div>
-      </div>
-
-      <div class="md:items-center md:flex" :hidden="!apikey">
-        <button
-          @click="onResetKey"
-          class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-orange-500 rounded-md hover:bg-orange-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
-        >
-          Reset OpenAI API Key
-        </button>
-        <p class="mt-3 text-xs text-gray-400 dark:text-gray-600">
-          Input OpenAI API key you're ready to make your first API request.
-        </p>
       </div>
 
       <div class="w-full mt-4">
@@ -172,13 +160,16 @@ onMounted(async () => {
         </p>
       </div>
 
-      <div class="md:items-center md:flex" :hidden="!apikey">
+      <div class="items-center flex flex-col" :hidden="!apikey">
         <button
           @click="onResetKey"
-          class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+          class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-orange-500 rounded-md hover:bg-orange-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
         >
-          Open Telegram Web
+          Reset OpenAI API Key
         </button>
+        <p class="mt-3 text-xs text-center text-gray-400 dark:text-gray-600">
+          You're ready to make your first API request.
+        </p>
       </div>
     </div>
   </section>

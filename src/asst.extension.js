@@ -38,7 +38,7 @@ class Logger {
   log(...args) {
     return console.log(
       `%c🤖 [ASST] LOG %c[${dateTimeToStr(new Date())}] %c${args}`,
-      'color: black; font-size: 1rem; font-weight: bold;',
+      'color: inherit; font-size: 1rem; font-weight: bold;',
       'color: gray;',
       'color: black;'
     );
@@ -367,21 +367,32 @@ function waitForSelectorAll(selector, timeout = 5000) {
 }
 
 async function simulateTyping(element, value, delay = 200) {
+  // Очищаем содержимое элемента
   element.textContent = '';
 
+  // Фокусируемся на элементе
   element.focus();
 
-  element.click();
+  const selection = window.getSelection();
+  const range = document.createRange();
 
   for (let char of value) {
+    // Добавляем символ в текстовое содержимое
+    element.textContent += char;
+
+    // Устанавливаем курсор в конец текста
+    range.setStart(element.childNodes[0], element.textContent.length);
+    range.setEnd(element.childNodes[0], element.textContent.length);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    // Генерация событий keydown, input и keyup
     const keydownEvent = new KeyboardEvent('keydown', {
       bubbles: true,
       cancelable: true,
       key: char
     });
     element.dispatchEvent(keydownEvent);
-
-    element.textContent += char;
 
     const inputEvent = new InputEvent('input', {
       bubbles: true,
