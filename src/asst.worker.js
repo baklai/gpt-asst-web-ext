@@ -4,21 +4,6 @@ chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch(error => console.error(error));
 
-// chrome.action.onClicked.addListener(async tab => {
-//   if (chrome.sidePanel) {
-//     try {
-//       await chrome.sidePanel.setOptions({
-//         path: 'sidebar/sidebar.html',
-//         enabled: true
-//       });
-//     } catch (error) {
-//       console.error('Ошибка при открытии боковой панели:', error);
-//     }
-//   } else {
-//     console.log('sidePanel API недоступен в этом браузере.');
-//   }
-// });
-
 chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
   if (data.action === 'mgs-from-webtg') {
     GPT_MESSAGES_BOX.push({ role: 'user', chatid: data.chatid, content: data.message });
