@@ -2,20 +2,20 @@
   "name": "gpt-asst-web-ext",
   "version": "1.0.0",
   "description": "This extension adds an AI to your browser that can conduct conversations on your behalf in the Telegram messenger",
-  "main": "manifest.json",
+  "main": "src/manifest.json",
+  "type": "module",
   "scripts": {
-    "run": "web-ext run",
-    "lint": "web-ext lint",
-    "build": "web-ext build",
-    "docs": "web-ext docs",
-    "format": "prettier --write ./"
+    "dev": "vite",
+    "build": "vite build",
+    "eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/baklai/gpt-asst-web-ext.git"
   },
   "keywords": [
-    "web-ext",
+    "telegram",
     "openai",
     "gpt"
   ],
@@ -25,8 +25,19 @@
     "url": "https://github.com/baklai/gpt-asst-web-ext/issues"
   },
   "homepage": "https://github.com/baklai/gpt-asst-web-ext#readme",
+  "dependencies": {
+    "vue": "^3.4.29"
+  },
   "devDependencies": {
-    "prettier": "^3.3.3",
-    "web-ext": "^8.3.0"
+    "@rushstack/eslint-patch": "^1.8.0",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.23.0",
+    "postcss": "^8.4.47",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.12",
+    "vite": "^5.3.1"
   }
 }

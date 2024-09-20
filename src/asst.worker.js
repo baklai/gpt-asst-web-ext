@@ -1,6 +1,25 @@
 const GPT_MESSAGES_BOX = [];
 
-browser.runtime.onMessage.addListener((data, sender, sendResponse) => {
+chrome.sidePanel
+  .setPanelBehavior({ openPanelOnActionClick: true })
+  .catch(error => console.error(error));
+
+// chrome.action.onClicked.addListener(async tab => {
+//   if (chrome.sidePanel) {
+//     try {
+//       await chrome.sidePanel.setOptions({
+//         path: 'sidebar/sidebar.html',
+//         enabled: true
+//       });
+//     } catch (error) {
+//       console.error('Ошибка при открытии боковой панели:', error);
+//     }
+//   } else {
+//     console.log('sidePanel API недоступен в этом браузере.');
+//   }
+// });
+
+chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
   if (data.action === 'mgs-from-webtg') {
     GPT_MESSAGES_BOX.push({ role: 'user', chatid: data.chatid, content: data.message });
 
@@ -26,7 +45,7 @@ browser.runtime.onMessage.addListener((data, sender, sendResponse) => {
 });
 
 async function sendMessagesToOpenAI(messages) {
-  const { yourself, apikey } = await browser.storage.local.get();
+  const { yourself, apikey } = await chrome.storage.local.get();
 
   if (!apikey) throw new Error('🤷');
 

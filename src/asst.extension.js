@@ -61,12 +61,21 @@ class Assistant extends Logger {
   }
 
   bage(name = 'Assistant', description = '', version = '') {
-    return console.log(
-      `%c🤖 ${name} %c${description} %cv${version}`,
-      'color: tomato; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; display: block; width: 100%; text-align: center; padding: 20px 0 10px 0;',
-      'color: gray; font-size: 1rem; display: block; max-width: 50%; text-align: center; margin: 0 auto; padding-bottom: 5px;',
-      'color: gray; font-size: 1rem; display: block; text-align: center; padding-bottom: 20px;'
+    console.group(`🤖 ${name}`);
+    console.log(
+      `%c🤖 ${name}\n%c${description}\n%cv${version}`,
+      'color: tomato; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; display: block; padding: 10px 0 10px 0;',
+      'color: gray; font-size: 1rem; font-weight: bold; text-transform: uppercase; display: block; padding: 10px 0 10px 0;',
+      'color: gray; font-size: 1rem; display: block; width: 100%; padding-bottom: 10px;'
     );
+    console.groupEnd();
+
+    // return console.log(
+    //   `%c🤖 ${name} %c${description} %cv${version}`,
+    //   'color: tomato; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; display: block; width: 100%; margin: 0 auto; text-align: center; padding: 20px 0 10px 0;',
+    //   'color: gray; font-size: 1rem; font-weight: bold; text-transform: uppercase; display: block; width: 100%; margin: 0 auto; text-align: center; padding: 20px 0 10px 0;',
+    //   'color: gray; font-size: 1rem; display: block;  width: 100%; text-align: center; margin: 0 auto; padding-bottom: 20px;'
+    // );
   }
 
   async opened() {
@@ -366,7 +375,7 @@ async function simulateTyping(element, value, delay = 200) {
 
 async function browserRuntimeSendMessage({ action, chatid, message }) {
   try {
-    return await browser.runtime.sendMessage({ action, chatid, message });
+    return await chrome.runtime.sendMessage({ action, chatid, message });
   } catch (err) {
     throw new Error(err.message);
   }
