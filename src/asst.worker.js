@@ -4,6 +4,17 @@ chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch(error => console.error(error));
 
+chrome.runtime.onInstalled.addListener(() => {
+  console.log('Расширение установлено!');
+  chrome.notifications.create({
+    type: 'basic',
+    iconUrl: '/icons/icon-128.png',
+    title: 'GPT Assistant for Telegram',
+    message: "Don't forget to pin our extension to your toolbar!",
+    priority: 1
+  });
+});
+
 chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
   if (data.action === 'mgs-from-webtg') {
     GPT_MESSAGES_BOX.push({ role: 'user', chatid: data.chatid, content: data.message });

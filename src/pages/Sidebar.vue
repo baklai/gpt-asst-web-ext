@@ -2,7 +2,7 @@
 import { ref, watch, onMounted } from 'vue';
 
 const TG_TAB_TITLE = 'Telegram Web';
-const TG_TAB_URL = 'https://web.telegram.org/k/';
+const TG_TAB_URL = 'https://web.telegram.org/a/';
 
 const yourself = ref('');
 const apikey = ref('');
@@ -17,7 +17,7 @@ watch(apikey, async val => {
 
 const initWebTgTab = async (tabTitle, tabUrl) => {
   const tabs = await chrome.tabs.query({});
-  const webTgTab = tabs.find(tab => tab.title.includes(tabTitle));
+  const webTgTab = tabs.find(tab => tab.url.includes(tabUrl));
 
   if (webTgTab) {
     await chrome.tabs.update(webTgTab.id, { url: tabUrl });

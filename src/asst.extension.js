@@ -1,33 +1,3 @@
-(function () {
-  setTimeout(async () => {
-    try {
-      const { apikey } = await chrome.storage.local.get();
-
-      const assistant = new Assistant({ apiKey: apikey });
-
-      window.addEventListener('hashchange', function () {
-        if (assistant.chatid) {
-          assistant.closed();
-        }
-      });
-
-      window.addEventListener('popstate', function (event) {
-        if (assistant.chatid) {
-          assistant.closed();
-        }
-      });
-
-      assistant.clear();
-
-      const { name, description, version } = chrome.runtime.getManifest();
-
-      assistant.bage(name, description, version);
-    } catch (err) {
-      console.error(err);
-    }
-  }, 5000);
-})();
-
 class Logger {
   constructor() {}
 
@@ -38,7 +8,7 @@ class Logger {
   log(...args) {
     return console.log(
       `%c🤖 [ASST] LOG %c[${dateTimeToStr(new Date())}] %c${args}`,
-      'color: inherit; font-size: 1rem; font-weight: bold;',
+      'color: black; font-size: 1rem; font-weight: bold;',
       'color: gray;',
       'color: black;'
     );
@@ -118,7 +88,9 @@ class Assistant extends Logger {
 
       this.info(`CHAT ID [${this.chatid}] OPENED`);
 
-      this.observer.observe(document.body, {
+      const containerEl = document.querySelector('div.messages-container');
+
+      this.observer.observe(containerEl, {
         childList: true,
         subtree: true
       });
@@ -153,7 +125,7 @@ class Assistant extends Logger {
       backgroundColor: 'transparent',
       position: 'fixed',
       opacity: '0.5',
-      bottom: '20px',
+      top: '50%',
       right: '20px',
       zIndex: '9999',
       cursor: 'pointer',
@@ -171,8 +143,7 @@ class Assistant extends Logger {
     >
       <title>${tooltip}</title>
       <path d="M12,2A2,2 0 0,1 14,4C14,4.74 13.6,5.39 13,5.73V7H14A7,7 0 0,1 21,14H22A1,1 0 0,1 23,15V18A1,1 0 0,1 22,19H21V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V19H2A1,1 0 0,1 1,18V15A1,1 0 0,1 2,14H3A7,7 0 0,1 10,7H11V5.73C10.4,5.39 10,4.74 10,4A2,2 0 0,1 12,2M7.5,13A2.5,2.5 0 0,0 5,15.5A2.5,2.5 0 0,0 7.5,18A2.5,2.5 0 0,0 10,15.5A2.5,2.5 0 0,0 7.5,13M16.5,13A2.5,2.5 0 0,0 14,15.5A2.5,2.5 0 0,0 16.5,18A2.5,2.5 0 0,0 19,15.5A2.5,2.5 0 0,0 16.5,13Z" />
-    </svg>
-    `;
+    </svg>`;
 
     containerEl.innerHTML = iconEl;
 
@@ -258,9 +229,17 @@ class Assistant extends Logger {
           if (mutation.addedNodes.length > 0) {
             mutation.addedNodes.forEach(node => {
               if (node.nodeType === Node.ELEMENT_NODE) {
-                const newElement = node.querySelector('div.bubble.is-in span.translatable-message');
-                if (newElement) {
-                  const textContent = newElement.textContent;
+                if (
+                  node.classList.contains('message-list-item') &&
+                  !node.classList.contains('own')
+                ) {
+                  const element = node.querySelector('div.text-content');
+
+                  const clonedElement = element.cloneNode(true);
+                  clonedElement.querySelectorAll('span').forEach(span => span.remove());
+
+                  const textContent = clonedElement.textContent.trim();
+
                   if (textContent) {
                     this.log(`SENDING MESSAGE TO GPT: ${textContent}`);
                     this.messages.push(textContent);
@@ -300,11 +279,11 @@ class Assistant extends Logger {
   }
 
   async publishMessage(message) {
-    const inputMessageEl = document.querySelector('div.input-message-input');
+    const inputMessageEl = document.querySelector('div#editable-message-text');
     if (inputMessageEl) {
       await simulateTyping(inputMessageEl, message);
 
-      const sendBtnEl = document.querySelector('div.btn-send-container > button.send');
+      const sendBtnEl = document.querySelector('button.main-button.click-allowed');
       if (sendBtnEl) {
         sendBtnEl.click();
       } else {
@@ -367,26 +346,22 @@ function waitForSelectorAll(selector, timeout = 5000) {
 }
 
 async function simulateTyping(element, value, delay = 200) {
-  // Очищаем содержимое элемента
   element.textContent = '';
 
-  // Фокусируемся на элементе
   element.focus();
+  element.click();
 
   const selection = window.getSelection();
   const range = document.createRange();
 
   for (let char of value) {
-    // Добавляем символ в текстовое содержимое
     element.textContent += char;
 
-    // Устанавливаем курсор в конец текста
     range.setStart(element.childNodes[0], element.textContent.length);
     range.setEnd(element.childNodes[0], element.textContent.length);
     selection.removeAllRanges();
     selection.addRange(range);
 
-    // Генерация событий keydown, input и keyup
     const keydownEvent = new KeyboardEvent('keydown', {
       bubbles: true,
       cancelable: true,
@@ -421,3 +396,33 @@ async function browserRuntimeSendMessage({ action, chatid, message }) {
     throw new Error(err.message);
   }
 }
+
+(function () {
+  setTimeout(async () => {
+    try {
+      const { apikey } = await chrome.storage.local.get();
+
+      const assistant = new Assistant({ apiKey: apikey });
+
+      window.addEventListener('hashchange', function () {
+        if (assistant.chatid) {
+          assistant.closed();
+        }
+      });
+
+      window.addEventListener('popstate', function (event) {
+        if (assistant.chatid) {
+          assistant.closed();
+        }
+      });
+
+      assistant.clear();
+
+      const { name, description, version } = chrome.runtime.getManifest();
+
+      assistant.bage(name, description, version);
+    } catch (err) {
+      console.error(err);
+    }
+  }, 5000);
+})();

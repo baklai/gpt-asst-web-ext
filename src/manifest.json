@@ -13,9 +13,9 @@
     "128": "icons/icon-128.png"
   },
 
-  "permissions": ["tabs", "activeTab", "sidePanel", "storage"],
+  "permissions": ["tabs", "activeTab", "sidePanel", "notifications", "storage"],
 
-  "host_permissions": ["*://web.telegram.org/*"],
+  "host_permissions": ["*://web.telegram.org/a/*"],
 
   "background": {
     "service_worker": "src/asst.worker.js"
@@ -31,7 +31,7 @@
 
   "content_scripts": [
     {
-      "matches": ["*://web.telegram.org/*"],
+      "matches": ["*://web.telegram.org/a/*"],
       "js": ["src/asst.extension.js"],
       "run_at": "document_end"
     }
