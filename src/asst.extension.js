@@ -26,7 +26,7 @@ class Logger {
   warn(...args) {
     return console.log(
       `%c🤖 [ASST] WARN %c[${dateTimeToStr(new Date())}] %c${args}`,
-      'color: tomato; font-size: 1rem; font-weight: bold;',
+      'color: #3390ec; font-size: 1rem; font-weight: bold;',
       'color: gray;',
       'color: black;'
     );
@@ -55,27 +55,20 @@ class Assistant extends Logger {
 
     this.isObserving = false;
 
-    this.assistant({});
+    this.clear();
 
     this.initObserver();
   }
 
   bage(name = 'Assistant', description = '', version = '') {
-    console.group(`🤖 ${name}`);
+    console.group(`${name}`);
     console.log(
-      `%c🤖 ${name}\n%c${description}\n%cv${version}`,
-      'color: tomato; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; display: block; padding: 10px 0 10px 0;',
+      `%c${name}\n%c${description}\n%cv${version}`,
+      'color: #3390ec; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; display: block; padding: 10px 0 10px 0;',
       'color: gray; font-size: 1rem; display: block; padding: 10px 0 10px 0;',
       'color: gray; font-size: 1rem; display: block; width: 100%; padding-bottom: 10px;'
     );
     console.groupEnd();
-
-    // return console.log(
-    //   `%c🤖 ${name} %c${description} %cv${version}`,
-    //   'color: tomato; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; display: block; width: 100%; margin: 0 auto; text-align: center; padding: 20px 0 10px 0;',
-    //   'color: gray; font-size: 1rem; font-weight: bold; text-transform: uppercase; display: block; width: 100%; margin: 0 auto; text-align: center; padding: 20px 0 10px 0;',
-    //   'color: gray; font-size: 1rem; display: block;  width: 100%; text-align: center; margin: 0 auto; padding-bottom: 20px;'
-    // );
   }
 
   async opened() {
@@ -113,113 +106,27 @@ class Assistant extends Logger {
     return this.isObserving;
   }
 
-  assistant({ tooltip = 'Assistant to chat' }) {
-    const width = 50;
-    const height = 50;
-    const fill = 'gray' || 'tomato';
-    const stroke = 'currentColor';
-    const shadow = '2px 4px 6px rgba(0, 0, 0, 0.3)';
+  initAsstBtn(element) {
+    if (element) {
+      const button = document.createElement('button');
+      button.textContent = '▶️';
+      button.style.fontSize = '24px';
+      button.setAttribute('type', 'button');
+      button.setAttribute('class', 'Button record default secondary round click-allowed');
+      button.setAttribute('aria-label', 'GPT Assistant message');
+      button.setAttribute('title', 'GPT Assistant message');
 
-    const containerEl = document.createElement('div');
-    Object.assign(containerEl.style, {
-      backgroundColor: 'transparent',
-      position: 'fixed',
-      opacity: '0.5',
-      top: '50%',
-      right: '20px',
-      zIndex: '9999',
-      cursor: 'pointer',
-      width: `${width + 8}px`,
-      height: `${height + 8}px`
-    });
+      button.addEventListener('click', e => {
+        if (e.target.textContent === '▶️') {
+          e.target.textContent = '⏹️';
+        } else {
+          e.target.textContent = '▶️';
+        }
+        e.target.blur();
+      });
 
-    const iconEl = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" 
-      height="${height}" 
-      width="${width}" 
-      stroke="${stroke}" 
-      fill="${fill}" 
-      style="filter: drop-shadow(${shadow});"
-    >
-      <title>${tooltip}</title>
-      <path d="M12,2A2,2 0 0,1 14,4C14,4.74 13.6,5.39 13,5.73V7H14A7,7 0 0,1 21,14H22A1,1 0 0,1 23,15V18A1,1 0 0,1 22,19H21V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V19H2A1,1 0 0,1 1,18V15A1,1 0 0,1 2,14H3A7,7 0 0,1 10,7H11V5.73C10.4,5.39 10,4.74 10,4A2,2 0 0,1 12,2M7.5,13A2.5,2.5 0 0,0 5,15.5A2.5,2.5 0 0,0 7.5,18A2.5,2.5 0 0,0 10,15.5A2.5,2.5 0 0,0 7.5,13M16.5,13A2.5,2.5 0 0,0 14,15.5A2.5,2.5 0 0,0 16.5,18A2.5,2.5 0 0,0 19,15.5A2.5,2.5 0 0,0 16.5,13Z" />
-    </svg>`;
-
-    containerEl.innerHTML = iconEl;
-
-    const tooltipEl = document.createElement('div');
-    tooltipEl.innerText = tooltip;
-    Object.assign(tooltipEl.style, {
-      display: 'block',
-      content: '',
-      position: 'absolute',
-      top: '50%',
-      transform: 'translateX(-10px) translateY(-50%)',
-      padding: '5px 10px',
-      backgroundColor: 'rgba(0, 0, 0, 0.75)',
-      color: 'white',
-      borderRadius: '5px',
-      fontSize: '12px',
-      whiteSpace: 'nowrap',
-      visibility: 'hidden',
-      opacity: '0',
-      transition: 'visibility 0s, opacity 0.3s ease'
-    });
-
-    const tooltipArrowEl = document.createElement('div');
-    Object.assign(tooltipArrowEl.style, {
-      position: 'absolute',
-      right: '-8px',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      width: '0',
-      height: '0',
-      borderTop: '5px solid transparent',
-      borderBottom: '5px solid transparent',
-      borderLeft: '8px solid rgba(0, 0, 0, 0.75)'
-    });
-
-    tooltipEl.appendChild(tooltipArrowEl);
-    containerEl.appendChild(tooltipEl);
-
-    containerEl.addEventListener('mouseover', () => {
-      const tooltipWidth = tooltipEl.offsetWidth;
-      tooltipEl.style.left = `-${tooltipWidth}px`;
-
-      containerEl.style.opacity = '0.6';
-      tooltipEl.style.visibility = 'visible';
-      tooltipEl.style.opacity = '1';
-    });
-
-    containerEl.addEventListener('mouseout', () => {
-      containerEl.style.opacity = '0.5';
-      tooltipEl.style.visibility = 'hidden';
-      tooltipEl.style.opacity = '0';
-    });
-
-    containerEl.addEventListener('click', () => {
-      const svg = containerEl.querySelector('svg');
-
-      const isObserving = this.status();
-
-      if (isObserving) {
-        this.closed();
-      } else {
-        this.opened();
-      }
-
-      const isClosedOrOpened = this.status();
-
-      if (!isClosedOrOpened) {
-        svg.setAttribute('fill', 'gray');
-        svg.setAttribute('stroke', 'currentColor');
-      } else {
-        svg.setAttribute('fill', 'tomato');
-        svg.setAttribute('stroke', 'currentColor');
-      }
-    });
-
-    document.body.appendChild(containerEl);
+      element.appendChild(button);
+    }
   }
 
   initObserver() {
@@ -346,17 +253,14 @@ function waitForSelectorAll(selector, timeout = 5000) {
 }
 
 async function simulateTyping(element, value, delay = 200) {
-  element.textContent = '';
-
   element.focus();
   element.click();
-
+  element.textContent = '';
   const selection = window.getSelection();
   const range = document.createRange();
 
   for (let char of value) {
     element.textContent += char;
-
     range.setStart(element.childNodes[0], element.textContent.length);
     range.setEnd(element.childNodes[0], element.textContent.length);
     selection.removeAllRanges();
@@ -397,32 +301,84 @@ async function browserRuntimeSendMessage({ action, chatid, message }) {
   }
 }
 
-(function () {
-  setTimeout(async () => {
-    try {
-      const { apikey } = await chrome.storage.local.get();
+(async function () {
+  try {
+    const { apikey } = await chrome.storage.local.get();
 
-      const assistant = new Assistant({ apiKey: apikey });
+    const assistant = new Assistant({ apiKey: apikey });
 
-      window.addEventListener('hashchange', function () {
-        if (assistant.chatid) {
-          assistant.closed();
+    const footer = new MutationObserver(mutationsList => {
+      mutationsList.forEach(mutation => {
+        if (mutation.type === 'childList') {
+          if (mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach(node => {
+              if (node.nodeType === Node.ELEMENT_NODE) {
+                const element = node.querySelector('div#message-input-text');
+                if (element) {
+                  const container = document.createElement('div');
+                  container.style.display = 'flex';
+                  container.style.alignItems = 'center';
+
+                  const span = document.createElement('span');
+                  span.textContent = 'GPT Assistant stoped...';
+                  span.style.color = 'gray';
+
+                  const button = document.createElement('button');
+                  button.textContent = '▶️';
+                  button.style.width = '2rem';
+                  button.style.height = '2rem';
+                  button.setAttribute('type', 'button');
+                  button.setAttribute('class', 'Button default translucent');
+                  button.setAttribute('aria-label', 'Run/Stop GPT Assistant');
+                  button.setAttribute('title', 'Run/Stop GPT Assistant');
+
+                  button.addEventListener('click', async event => {
+                    if (event.target.textContent === '▶️') {
+                      await assistant?.opened();
+                      span.textContent = 'GPT Assistant running...';
+                      event.target.textContent = '⏹️';
+                    } else {
+                      assistant?.closed();
+                      span.textContent = 'GPT Assistant stoped...';
+                      event.target.textContent = '▶️';
+                    }
+                    event.target.blur();
+                  });
+
+                  container.appendChild(button);
+                  container.appendChild(span);
+
+                  element.appendChild(container);
+                }
+              }
+            });
+          }
+
+          if (mutation.removedNodes.length > 0) {
+            mutation.removedNodes.forEach(node => {
+              if (node.nodeType === Node.ELEMENT_NODE) {
+                if (
+                  node.classList.contains('Composer') &&
+                  node.classList.contains('shown') &&
+                  node.classList.contains('mounted')
+                ) {
+                  if (assistant?.isObserving) {
+                    assistant.closed();
+                  }
+                }
+              }
+            });
+          }
         }
       });
+    });
 
-      window.addEventListener('popstate', function (event) {
-        if (assistant.chatid) {
-          assistant.closed();
-        }
-      });
+    footer.observe(document.body, { childList: true, subtree: true });
 
-      assistant.clear();
+    const { name, description, version } = chrome.runtime.getManifest();
 
-      const { name, description, version } = chrome.runtime.getManifest();
-
-      assistant.bage(name, description, version);
-    } catch (err) {
-      console.error(err);
-    }
-  }, 5000);
+    assistant.bage(name, description, version);
+  } catch (err) {
+    console.error(err);
+  }
 })();

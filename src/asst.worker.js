@@ -2,13 +2,22 @@ const GPT_MESSAGES_BOX = [];
 
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
+  .then(() => {
+    chrome.notifications.create({
+      // type: 'basic',
+      // iconUrl: '/icons/icon-128.png',
+      title: 'GPT Assistant for Telegram',
+      message: "Don't forget to pin our extension to your toolbar!",
+      priority: 1
+    });
+  })
   .catch(error => console.error(error));
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log('Расширение установлено!');
   chrome.notifications.create({
-    type: 'basic',
-    iconUrl: '/icons/icon-128.png',
+    // type: 'basic',
+    // iconUrl: '/icons/icon-128.png',
     title: 'GPT Assistant for Telegram',
     message: "Don't forget to pin our extension to your toolbar!",
     priority: 1

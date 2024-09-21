@@ -19,7 +19,7 @@ a {
 
 *:focus {
   box-shadow: none !important;
-  border-color: orange !important;
+  border-color: #3390ec !important;
 }
 
 /* Scrollbar on Firefox */

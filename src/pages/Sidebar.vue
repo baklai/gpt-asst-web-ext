@@ -50,8 +50,8 @@ onMounted(async () => {
         <img src="@/assets/logo.svg" alt="logo" class="mr-2" height="24" width="24" />
 
         <h1
-          class="text-2xl font-semibold text-orange-500 capitalize dark:text-white lg:text-3xl"
-          style="-webkit-text-stroke: 1px gray"
+          class="text-2xl font-semibold text-primary-500 capitalize dark:text-white lg:text-3xl"
+          style="-webkit-text-stroke: 1px #2974be"
         >
           GPT Asst for Telegram
         </h1>
@@ -67,7 +67,7 @@ onMounted(async () => {
 
         <div class="flex mt-4 -mx-1.5">
           <a
-            class="mx-1.5 dark:hover:text-orange-400 text-gray-400 transition-colors duration-300 transform hover:text-orange-500"
+            class="mx-1.5 dark:hover:text-primary-400 text-gray-400 transition-colors duration-300 transform hover:text-primary-500"
             target="_blank"
             href="https://github.com/baklai"
           >
@@ -81,7 +81,7 @@ onMounted(async () => {
           </a>
 
           <a
-            class="mx-1.5 dark:hover:text-orange-400 text-gray-400 transition-colors duration-300 transform hover:text-orange-500"
+            class="mx-1.5 dark:hover:text-primary-400 text-gray-400 transition-colors duration-300 transform hover:text-primary-500"
             target="_blank"
             href="https://www.linkedin.com/in/baklai/"
           >
@@ -95,7 +95,7 @@ onMounted(async () => {
           </a>
 
           <a
-            class="mx-1.5 dark:hover:text-orange-400 text-gray-400 transition-colors duration-300 transform hover:text-orange-500"
+            class="mx-1.5 dark:hover:text-primary-400 text-gray-400 transition-colors duration-300 transform hover:text-primary-500"
             target="_blank"
             href="https://www.facebook.com/dmitrii.baklai"
           >
@@ -109,7 +109,7 @@ onMounted(async () => {
           </a>
 
           <a
-            class="mx-1.5 dark:hover:text-orange-400 text-gray-400 transition-colors duration-300 transform hover:text-orange-500"
+            class="mx-1.5 dark:hover:text-primary-400 text-gray-400 transition-colors duration-300 transform hover:text-primary-500"
             target="_blank"
             href="https://www.instagram.com/baklai.di/"
           >
@@ -163,7 +163,7 @@ onMounted(async () => {
       <div class="items-center flex flex-col" :hidden="!apikey">
         <button
           @click="onResetKey"
-          class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-orange-500 rounded-md hover:bg-orange-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+          class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary-500 rounded-md hover:bg-primary-400 focus:outline-none focus:ring focus:ring-primary-300 focus:ring-opacity-50"
         >
           Reset OpenAI API Key
         </button>
