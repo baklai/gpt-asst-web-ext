@@ -57,7 +57,7 @@ class Assistant extends Logger {
 
     this.clear();
 
-    this.initObserver();
+    this.initChstObserver();
   }
 
   bage(name = 'Assistant', description = '', version = '') {
@@ -106,30 +106,7 @@ class Assistant extends Logger {
     return this.isObserving;
   }
 
-  initAsstBtn(element) {
-    if (element) {
-      const button = document.createElement('button');
-      button.textContent = '▶️';
-      button.style.fontSize = '24px';
-      button.setAttribute('type', 'button');
-      button.setAttribute('class', 'Button record default secondary round click-allowed');
-      button.setAttribute('aria-label', 'GPT Assistant message');
-      button.setAttribute('title', 'GPT Assistant message');
-
-      button.addEventListener('click', e => {
-        if (e.target.textContent === '▶️') {
-          e.target.textContent = '⏹️';
-        } else {
-          e.target.textContent = '▶️';
-        }
-        e.target.blur();
-      });
-
-      element.appendChild(button);
-    }
-  }
-
-  initObserver() {
+  initChstObserver() {
     this.observer = new MutationObserver(mutationsList => {
       mutationsList.forEach(mutation => {
         if (mutation.type === 'childList') {
@@ -214,44 +191,6 @@ function dateTimeToStr(value) {
   return value ? new Date(value).toLocaleString() : value;
 }
 
-function waitForSelector(selector, timeout = 5000) {
-  return new Promise((resolve, reject) => {
-    const startTime = Date.now();
-
-    const checkForElement = () => {
-      const element = document.querySelector(selector);
-      if (element) {
-        resolve(element);
-      } else if (Date.now() - startTime > timeout) {
-        reject(new Error(`Element with selector ${selector} not found in ${timeout} ms`));
-      } else {
-        requestAnimationFrame(checkForElement);
-      }
-    };
-
-    checkForElement();
-  });
-}
-
-function waitForSelectorAll(selector, timeout = 5000) {
-  return new Promise((resolve, reject) => {
-    const startTime = Date.now();
-
-    const checkForElements = () => {
-      const elements = document.querySelectorAll(selector);
-      if (elements.length > 0) {
-        resolve(Array.from(elements));
-      } else if (Date.now() - startTime > timeout) {
-        reject(new Error(`Element with selector ${selector} not found in ${timeout} ms`));
-      } else {
-        requestAnimationFrame(checkForElements);
-      }
-    };
-
-    checkForElements();
-  });
-}
-
 async function simulateTyping(element, value, delay = 200) {
   element.focus();
   element.click();
@@ -307,7 +246,7 @@ async function browserRuntimeSendMessage({ action, chatid, message }) {
 
     const assistant = new Assistant({ apiKey: apikey });
 
-    const footer = new MutationObserver(mutationsList => {
+    const layoutObserver = new MutationObserver(mutationsList => {
       mutationsList.forEach(mutation => {
         if (mutation.type === 'childList') {
           if (mutation.addedNodes.length > 0) {
@@ -315,40 +254,29 @@ async function browserRuntimeSendMessage({ action, chatid, message }) {
               if (node.nodeType === Node.ELEMENT_NODE) {
                 const element = node.querySelector('div#message-input-text');
                 if (element) {
-                  const container = document.createElement('div');
-                  container.style.display = 'flex';
-                  container.style.alignItems = 'center';
-
-                  const span = document.createElement('span');
-                  span.textContent = 'GPT Assistant stoped...';
-                  span.style.color = 'gray';
-
                   const button = document.createElement('button');
-                  button.textContent = '▶️';
-                  button.style.width = '2rem';
-                  button.style.height = '2rem';
+                  button.textContent = '✨';
+                  button.style.fontSize = '24px';
+                  button.dataset.status = 'closed';
                   button.setAttribute('type', 'button');
-                  button.setAttribute('class', 'Button default translucent');
+                  button.setAttribute('class', 'Button default secondary round click-allowed');
                   button.setAttribute('aria-label', 'Run/Stop GPT Assistant');
                   button.setAttribute('title', 'Run/Stop GPT Assistant');
 
                   button.addEventListener('click', async event => {
-                    if (event.target.textContent === '▶️') {
+                    if (event.target.dataset.status === 'closed') {
                       await assistant?.opened();
-                      span.textContent = 'GPT Assistant running...';
+                      button.dataset.status = 'opened';
                       event.target.textContent = '⏹️';
                     } else {
                       assistant?.closed();
-                      span.textContent = 'GPT Assistant stoped...';
+                      button.dataset.status = 'closed';
                       event.target.textContent = '▶️';
                     }
                     event.target.blur();
                   });
 
-                  container.appendChild(button);
-                  container.appendChild(span);
-
-                  element.appendChild(container);
+                  element.parentNode.parentNode.parentNode.appendChild(button);
                 }
               }
             });
@@ -373,7 +301,7 @@ async function browserRuntimeSendMessage({ action, chatid, message }) {
       });
     });
 
-    footer.observe(document.body, { childList: true, subtree: true });
+    layoutObserver.observe(document.body, { childList: true, subtree: true });
 
     const { name, description, version } = chrome.runtime.getManifest();
 

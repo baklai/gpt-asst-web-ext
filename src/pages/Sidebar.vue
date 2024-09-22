@@ -49,10 +49,7 @@ onMounted(async () => {
       <div style="display: flex; align-items: center">
         <img src="@/assets/logo.svg" alt="logo" class="mr-2" height="24" width="24" />
 
-        <h1
-          class="text-2xl font-semibold text-primary-500 capitalize dark:text-white lg:text-3xl"
-          style="-webkit-text-stroke: 1px #2974be"
-        >
+        <h1 class="text-2xl font-semibold text-primary-500 capitalize dark:text-white lg:text-3xl">
           GPT Asst for Telegram
         </h1>
       </div>
