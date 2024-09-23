@@ -1,7 +1,7 @@
 {
   "name": "gpt-asst-web-ext",
   "version": "1.0.0",
-  "description": "This extension adds an AI to your browser that can conduct conversations on your behalf in the Telegram messenger",
+  "description": "This extension adds an GPT Assistant to your browser that can conduct conversations on your behalf.",
   "main": "src/manifest.json",
   "type": "module",
   "scripts": {

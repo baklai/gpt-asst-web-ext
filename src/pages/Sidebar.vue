@@ -50,13 +50,13 @@ onMounted(async () => {
         <img src="@/assets/logo.svg" alt="logo" class="mr-2" height="24" width="24" />
 
         <h1 class="text-2xl font-semibold text-primary-500 capitalize dark:text-white lg:text-3xl">
-          GPT Asst for Telegram
+          GPT Assistant
         </h1>
       </div>
 
       <p class="mt-4 text-gray-500 dark:text-gray-400">
-        This extension adds an AI to your browser that can conduct conversations on your behalf in
-        the Telegram messenger
+        This extension adds an GPT Assistant to your browser that can conduct conversations on your
+        behalf.
       </p>
 
       <div class="mt-6 md:mt-8 hidden md:block">

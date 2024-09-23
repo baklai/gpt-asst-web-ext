@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "version": "1.0.0",
-  "name": "GPT Assistant for Telegram",
-  "description": "This extension adds a GPT Assistant to your browser that can conduct conversations on your behalf in the Telegram Web messenger.",
+  "name": "GPT Assistant",
+  "description": "This extension adds an GPT Assistant to your browser that can conduct conversations on your behalf.",
   "homepage_url": "https://github.com/baklai/gpt-asst-web-ext#readme",
   "author": "d.n.baklai@gmail.com",
   "icons": {
@@ -34,6 +34,13 @@
       "matches": ["*://web.telegram.org/a/*"],
       "js": ["src/asst.extension.js"],
       "run_at": "document_end"
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "matches": ["https://*/*"],
+      "resources": ["src/assets/*"]
     }
   ],
 
