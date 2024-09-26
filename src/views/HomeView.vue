@@ -37,7 +37,7 @@ onMounted(async () => {
       {{ item.title }}
     </a>
 
-    <div class="w-full" v-if="content">
+    <div class="w-full">
       <details class="group py-8">
         <summary class="flex cursor-pointer items-center text-gray-500 dark:text-gray-400">
           <span class="h-px flex-1 bg-gray-300"></span>
@@ -46,10 +46,18 @@ onMounted(async () => {
         </summary>
 
         <p
-          class="mt-4 whitespace-normal leading-relaxed break-all text-center text-gray-500 dark:text-gray-400"
+          class="my-4 whitespace-normal leading-relaxed break-all text-center text-gray-500 dark:text-gray-400"
+          v-if="content"
         >
           {{ content }}
         </p>
+        <button
+          type="button"
+          @click="$router.push({ name: 'options' })"
+          class="w-full px-6 py-3 text-sm font-medium text-center tracking-wide text-white transition-colors duration-300 transform bg-primary-500 rounded-md hover:bg-primary-400 focus:outline-none focus:ring focus:ring-primary-300 focus:ring-opacity-50"
+        >
+          Open options
+        </button>
       </details>
     </div>
 
