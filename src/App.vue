@@ -1,8 +1,13 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+
 import IconFacebook from '@/components/icons/IconFacebook.vue';
 import IconGithub from '@/components/icons/IconGithub.vue';
 import IconInstagram from '@/components/icons/IconInstagram.vue';
 import IconLinkedin from '@/components/icons/IconLinkedin.vue';
+
+const logo32Url = ref('');
+const logo96Url = ref('');
 
 const NAV_LIKS = [
   { name: 'home', title: 'Home' },
@@ -16,6 +21,11 @@ const FOLLOW_LINKS = [
   { icon: IconFacebook, title: 'facebook', href: 'https://www.facebook.com/dmitrii.baklai' },
   { icon: IconInstagram, title: 'instagram', href: 'https://www.instagram.com/baklai.di/' }
 ];
+
+onMounted(() => {
+  logo96Url.value = chrome.runtime.getURL('icons/icon-96.png');
+  logo32Url.value = chrome.runtime.getURL('icons/icon-32.png');
+});
 </script>
 
 <template>
@@ -25,7 +35,7 @@ const FOLLOW_LINKS = [
     >
       <div class="flex flex-row items-start justify-center m-auto">
         <img
-          src="@/assets/logo.png"
+          :src="logo96Url"
           alt="logo"
           class="hidden lg:flex items-start mr-4"
           height="96"
@@ -35,7 +45,7 @@ const FOLLOW_LINKS = [
         <div class="flex flex-col items-center justify-center lg:items-start">
           <div class="flex">
             <img
-              src="@/assets/logo.png"
+              :src="logo32Url"
               alt="logo"
               class="flex items-start mr-2 lg:hidden"
               height="32"
