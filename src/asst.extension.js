@@ -242,9 +242,9 @@ async function browserRuntimeSendMessage({ action, chatid, message }) {
 
 (async function () {
   try {
-    const { apikey } = await chrome.storage.local.get();
+    const storage = await chrome.storage.local.get(['asst-apikey']);
 
-    const assistant = new Assistant({ apiKey: apikey });
+    const assistant = new Assistant({ apiKey: storage['asst-apikey'] });
 
     const layoutObserver = new MutationObserver(mutationsList => {
       mutationsList.forEach(mutation => {

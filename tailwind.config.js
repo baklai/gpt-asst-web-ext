@@ -1,21 +1,33 @@
 export default {
   content: ['./src/**/*.{html,vue,js}'],
-  darkMode: 'class',
+  darkMode: ['media'],
   theme: {
     extend: {
       colors: {
-        'primary-0': '#e6f3fd',
-        'primary-50': '#cce8fc',
-        'primary-100': '#99d1fa',
-        'primary-200': '#33a4f7',
-        'primary-300': '#0077e3',
-        'primary-400': '#0055a5',
-        'primary-500': '#3390ec',
-        'primary-600': '#2974be',
-        'primary-700': '#1f5790',
-        'primary-800': '#143a62',
-        'primary-900': '#0a1d34',
-        'primary-950': '#050e1d'
+        'primary-50': '#f0f9ff',
+        'primary-100': '#e0f2fe',
+        'primary-200': '#bae6fd',
+        'primary-300': '#7dd3fc',
+        'primary-400': '#38bdf8',
+        'primary-500': '#0ea5e9',
+        'primary-600': '#0284c7',
+        'primary-700': '#0369a1',
+        'primary-800': '#075985',
+        'primary-900': '#0c4a6e',
+        'primary-950': '#082f49',
+
+        'surface-0': '#ffffff',
+        'surface-50': '#fafaf9',
+        'surface-100': '#f5f5f4',
+        'surface-200': '#e7e5e4',
+        'surface-300': '#d6d3d1',
+        'surface-400': '#a8a29e',
+        'surface-500': '#78716c',
+        'surface-600': '#57534e',
+        'surface-700': '#44403c',
+        'surface-800': '#292524',
+        'surface-900': '#1c1917',
+        'surface-950': '#0c0a09'
       }
     }
   },

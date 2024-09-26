@@ -26,7 +26,9 @@
   },
   "homepage": "https://github.com/baklai/gpt-asst-web-ext#readme",
   "dependencies": {
-    "vue": "^3.4.29"
+    "pinia": "^2.2.2",
+    "vue": "^3.4.29",
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

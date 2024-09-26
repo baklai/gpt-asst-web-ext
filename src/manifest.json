@@ -22,11 +22,11 @@
   },
 
   "action": {
-    "default_title": "Click to open panel"
+    "default_title": "Click to open sidebar"
   },
 
   "side_panel": {
-    "default_path": "src/sidebar.html"
+    "default_path": "src/asst.sidebar.html"
   },
 
   "content_scripts": [
@@ -39,7 +39,7 @@
 
   "web_accessible_resources": [
     {
-      "matches": ["https://*/*"],
+      "matches": ["*://*/*"],
       "resources": ["src/assets/*"]
     }
   ],

@@ -30,9 +30,15 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 });
 
 async function sendMessagesToOpenAI(messages) {
-  const { yourself, apikey } = await chrome.storage.local.get();
+  const storage = await chrome.storage.local.get(['asst-apikey', 'asst-content']);
 
-  if (!apikey) throw new Error('🤷');
+  const contents =
+    storage['asst-content']
+      ?.map(({ content }) => content)
+      ?.join(' ')
+      ?.trim() || null;
+
+  if (!storage['asst-apikey']) throw new Error('🤷');
 
   const DEFAULT_SYSTEM_MESSAGE = 'You are a helpful assistant.';
   const API_URL = 'https://api.openai.com/v1/chat/completions';
@@ -42,7 +48,7 @@ async function sendMessagesToOpenAI(messages) {
     messages: [
       {
         role: 'system',
-        content: yourself || DEFAULT_SYSTEM_MESSAGE
+        content: contents || DEFAULT_SYSTEM_MESSAGE
       },
       ...messages // [{ role: 'user', content: 'this is message'}]
     ]
@@ -53,7 +59,7 @@ async function sendMessagesToOpenAI(messages) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apikey}`
+        Authorization: `Bearer ${storage['asst-apikey']}`
       },
       body: JSON.stringify(requestData)
     });
