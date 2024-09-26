@@ -28,13 +28,6 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-col gap-y-6 w-full">
-    <div class="w-full" v-if="content">
-      <p class="text-center font-medium pb-2">The personality described</p>
-      <p class="whitespace-normal break-all text-center text-gray-500 dark:text-gray-400">
-        {{ content }}
-      </p>
-    </div>
-
     <a
       v-for="item of BTN_TABS"
       :href="item.url"
@@ -43,6 +36,22 @@ onMounted(async () => {
     >
       {{ item.title }}
     </a>
+
+    <div class="w-full" v-if="content">
+      <details class="group py-8">
+        <summary class="flex cursor-pointer items-center text-gray-500 dark:text-gray-400">
+          <span class="h-px flex-1 bg-gray-300"></span>
+          <span class="shrink-0 px-6">The personality described</span>
+          <span class="h-px flex-1 bg-gray-300"></span>
+        </summary>
+
+        <p
+          class="mt-4 whitespace-normal leading-relaxed break-all text-center text-gray-500 dark:text-gray-400"
+        >
+          {{ content }}
+        </p>
+      </details>
+    </div>
 
     <button
       type="button"
