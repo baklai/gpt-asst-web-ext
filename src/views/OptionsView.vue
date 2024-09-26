@@ -36,7 +36,7 @@ onMounted(async () => {
     consider several key aspects that will help determine the tone and style of communication
   </p>
 
-  <div class="space-y-4 max-h-96 w-full overflow-auto scrollbar-none p-4">
+  <div class="space-y-4 max-h-96 w-full overflow-y-auto p-4">
     <details
       class="group"
       v-for="(item, index) of contents"
