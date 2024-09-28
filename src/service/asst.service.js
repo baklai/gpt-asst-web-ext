@@ -1,34 +1,30 @@
 import { customRef } from 'vue';
 
-export const contents = [
+export const systems = [
   {
-    title: 'Tone and style of communication',
+    title: 'options.first.title',
     content: '',
-    example: 'Polite, friendly, formal or informal. Use of professional or casual vocabulary.'
+    example: 'options.first.example'
   },
   {
-    title: 'Role and Profession',
+    title: 'options.second.title',
     content: '',
-    example:
-      'Specify the role you want to play (e.g. developer, manager, consultant). If you are communicating on behalf of a specific profession, it is important to emphasize this.'
+    example: 'options.second.example'
   },
   {
-    title: 'Values ​​and preferences',
+    title: 'options.third.title',
     content: '',
-    example:
-      'What character traits do you want to convey (for example, openness, responsiveness, attention to detail).'
+    example: 'options.third.example'
   },
   {
-    title: 'Expectations from the interlocutor',
+    title: 'options.fourth.title',
     content: '',
-    example:
-      'What level of knowledge do you assume your interlocutor has (beginner, experienced user, expert).'
+    example: 'options.fourth.example'
   },
   {
-    title: 'Specific instructions for conducting a conversation',
+    title: 'options.fifth.title',
     content: '',
-    example:
-      'How to respond to questions, requests or conflicts (for example, maintain a dialogue even if the question is not clear).'
+    example: 'options.fifth.example'
   }
 ];
 

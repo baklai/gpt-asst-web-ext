@@ -17,7 +17,7 @@ const onResetHandler = () => {
 };
 
 onMounted(async () => {
-  const contents = await asst.content;
+  const contents = await asst.options;
 
   content.value = contents
     .map(({ content }) => content)

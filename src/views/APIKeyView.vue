@@ -15,7 +15,7 @@ const onSaveHandler = async () => {
 <template>
   <div class="py-8 md:p-12 lg:p-8">
     <div class="mx-auto max-w-lg text-center">
-      <h2 class="text-2xl font-bold text-gray-500 md:text-3xl">GPT OpenAI API Key</h2>
+      <h2 class="text-2xl font-bold text-gray-500 md:text-3xl">OpenAI API Key</h2>
 
       <p class="block mt-4 text-gray-500">
         <a href="https://platform.openai.com/api-keys" target="_blank" class="text-primary-500"

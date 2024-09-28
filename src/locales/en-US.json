@@ -1,0 +1,38 @@
+{
+  "ext": {
+    "title": "GPT Assistant",
+    "description": "This extension adds an GPT Assistant to your browser that can conduct conversations on your behalf."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "options": "Options"
+  },
+  "options": {
+    "first": {
+      "title": "Tone and style of communication",
+      "example": "Polite, friendly, formal or informal. Use of professional or casual vocabulary."
+    },
+    "second": {
+      "title": "Role and Profession",
+      "example": "Specify the role you want to play (e.g. developer, manager, consultant). If you are communicating on behalf of a specific profession, it is important to emphasize this."
+    },
+    "third": {
+      "title": "Values ​​and preferences",
+      "example": "What character traits do you want to convey (for example, openness, responsiveness, attention to detail)."
+    },
+    "fourth": {
+      "title": "Expectations from the interlocutor",
+      "example": "What level of knowledge do you assume your interlocutor has (beginner, experienced user, expert)."
+    },
+    "fifth": {
+      "title": "Specific instructions for conducting a conversation",
+      "example": "How to respond to questions, requests or conflicts (for example, maintain a dialogue even if the question is not clear)."
+    },
+
+    "description": "When describing a personality, it is important to consider several key aspects that will help determine the tone and style of communication."
+  },
+
+  "Details": "Details",
+  "Not Found": "Not Found"
+}

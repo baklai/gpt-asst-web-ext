@@ -20,22 +20,17 @@ const onOpenHandler = index => {
 watch(
   contents,
   newValue => {
-    asst.content = newValue;
+    asst.options = newValue;
   },
   { deep: true }
 );
 
 onMounted(async () => {
-  contents.value = await asst.content;
+  contents.value = await asst.options;
 });
 </script>
 
 <template>
-  <p class="text-center">
-    To describe the personality in the OpenAI Chat Completions system role, it is important to
-    consider several key aspects that will help determine the tone and style of communication
-  </p>
-
   <div class="space-y-4 max-h-96 w-full overflow-y-auto p-4">
     <details
       class="group"
@@ -48,7 +43,7 @@ onMounted(async () => {
         class="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-gray-50 p-4 text-gray-900"
       >
         <h2 :class="['font-medium', { 'text-primary-500': item.content.length }]">
-          {{ item.title }}
+          {{ $t(item.title) }}
         </h2>
 
         <svg
@@ -70,11 +65,17 @@ onMounted(async () => {
       <textarea
         rows="3"
         v-model="item.content"
-        :placeholder="`Enter ${item.title.toLocaleLowerCase()}`"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md md:h-56 dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+        :placeholder="$t(item.title)"
+        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
       ></textarea>
 
-      <p class="break-all text-gray-700">Details: {{ item.example }}</p>
+      <small class="break-all text-gray-700">{{ $t('Details') }} : {{ $t(item.example) }}</small>
     </details>
+  </div>
+
+  <div class="w-full p-4 text-gray-500 dark:text-gray-400">
+    <p class="text-center">
+      {{ $t('options.description') }}
+    </p>
   </div>
 </template>

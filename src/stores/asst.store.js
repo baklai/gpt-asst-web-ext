@@ -1,14 +1,15 @@
-import { computed, watch } from 'vue';
+import { watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { defineStore } from 'pinia';
+import { useI18n } from 'vue-i18n';
 
-import { contents, useChromeStorageLocal } from '@/service/asst.service';
+import { systems, useChromeStorageLocal } from '@/service/asst.service';
 
 export const useAsst = defineStore('asst', () => {
   const router = useRouter();
 
   const apikey = useChromeStorageLocal('asst-apikey', null);
-  const content = useChromeStorageLocal('asst-content', contents);
+  const options = useChromeStorageLocal('asst-options', systems);
 
   watch(apikey, async newValue => {
     const aValue = await newValue;
@@ -22,6 +23,6 @@ export const useAsst = defineStore('asst', () => {
 
   return {
     apikey,
-    content
+    options
   };
 });

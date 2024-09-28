@@ -1,18 +1,17 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import IconFacebook from '@/components/icons/IconFacebook.vue';
 import IconGithub from '@/components/icons/IconGithub.vue';
 import IconInstagram from '@/components/icons/IconInstagram.vue';
 import IconLinkedin from '@/components/icons/IconLinkedin.vue';
 
-const logo32Url = ref('');
-const logo96Url = ref('');
+const { t } = useI18n();
 
 const NAV_LIKS = [
-  { name: 'home', title: 'Home' },
-  { name: 'options', title: 'Options' },
-  { name: 'about', title: 'About' }
+  { name: 'home', title: t('nav.home') },
+  { name: 'options', title: t('nav.options') },
+  { name: 'about', title: t('nav.about') }
 ];
 
 const FOLLOW_LINKS = [
@@ -21,11 +20,6 @@ const FOLLOW_LINKS = [
   { icon: IconFacebook, title: 'facebook', href: 'https://www.facebook.com/dmitrii.baklai' },
   { icon: IconInstagram, title: 'instagram', href: 'https://www.instagram.com/baklai.di/' }
 ];
-
-onMounted(() => {
-  logo96Url.value = chrome.runtime.getURL('icons/icon-96.png');
-  logo32Url.value = chrome.runtime.getURL('icons/icon-32.png');
-});
 </script>
 
 <template>
@@ -35,7 +29,7 @@ onMounted(() => {
     >
       <div class="flex flex-row items-start justify-center m-auto">
         <img
-          :src="logo96Url"
+          src="/icons/icon-96.png"
           alt="logo"
           class="hidden lg:flex items-start mr-4"
           height="96"
@@ -45,7 +39,7 @@ onMounted(() => {
         <div class="flex flex-col items-center justify-center lg:items-start">
           <div class="flex">
             <img
-              :src="logo32Url"
+              src="/icons/icon-32.png"
               alt="logo"
               class="flex items-start mr-2 lg:hidden"
               height="32"
@@ -54,13 +48,12 @@ onMounted(() => {
             <h1
               class="text-2xl font-semibold uppercase text-primary-500 dark:text-white lg:text-3xl"
             >
-              GPT Assistant
+              {{ $t('ext.title') }}
             </h1>
           </div>
 
           <p class="text-center lg:text-start mt-4 max-w-[25rem] text-gray-500 dark:text-gray-400">
-            This extension adds an GPT Assistant to your browser that can conduct conversations on
-            your behalf.
+            {{ $t('ext.description') }}
           </p>
 
           <nav class="flex flex-wrap justify-around lg:justify-start gap-4 py-4">
