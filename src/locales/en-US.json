@@ -26,13 +26,20 @@
       "example": "What level of knowledge do you assume your interlocutor has (beginner, experienced user, expert)."
     },
     "fifth": {
-      "title": "Specific instructions for conducting a conversation",
+      "title": "Specific instructions",
       "example": "How to respond to questions, requests or conflicts (for example, maintain a dialogue even if the question is not clear)."
     },
-
     "description": "When describing a personality, it is important to consider several key aspects that will help determine the tone and style of communication."
   },
-
+  "apikey": {
+    "description": {
+      "link": "Create an API key in the dashboard here",
+      "text": ", which you’ll use to securely access the API. Once you’ve generated an API key, export it as an environment variable in your extension."
+    },
+    "placeholder": "Enter your OpenAI API key",
+    "comment": "You're ready to make your first API request.",
+    "button": "Go"
+  },
   "Details": "Details",
   "Not Found": "Not Found"
 }
