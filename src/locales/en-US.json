@@ -8,6 +8,16 @@
     "about": "About",
     "options": "Options"
   },
+  "home": {
+    "options": {
+      "text": "The personality described",
+      "button": "Open options"
+    },
+    "apikey": {
+      "text": "GPT API KEY",
+      "button": "Reset API Key"
+    }
+  },
   "options": {
     "first": {
       "title": "Tone and style of communication",

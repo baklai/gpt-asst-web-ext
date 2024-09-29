@@ -8,6 +8,16 @@
     "about": "О программе",
     "options": "Настройки"
   },
+  "home": {
+    "options": {
+      "text": "Описание личности",
+      "button": "Открыть настройки"
+    },
+    "apikey": {
+      "text": "GPT API КЛЮЧ",
+      "button": "Сбросить API ключ"
+    }
+  },
   "options": {
     "first": {
       "title": "Тон и стиль общения",

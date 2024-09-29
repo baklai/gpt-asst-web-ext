@@ -6,8 +6,8 @@ import { useAsst } from '@/stores/asst.store';
 const asst = useAsst();
 
 const BTN_TABS = ref([
-  { title: 'Assistant for Telegram', url: 'https://web.telegram.org/a/' },
-  { title: 'Assistant for WhatsApp', url: 'https://web.whatsapp.com/' }
+  { title: 'Telegram Web', url: 'https://web.telegram.org/a/' },
+  { title: 'WhatsApp Web', url: 'https://web.whatsapp.com/' }
 ]);
 
 const content = ref(null);
@@ -41,7 +41,7 @@ onMounted(async () => {
       <details class="group py-2">
         <summary class="flex cursor-pointer items-center text-gray-500 dark:text-gray-400">
           <span class="h-px flex-1 bg-gray-300"></span>
-          <span class="shrink-0 px-6 uppercase">The personality described</span>
+          <span class="shrink-0 px-6 uppercase">{{ $t('home.options.text') }}</span>
           <span class="h-px flex-1 bg-gray-300"></span>
         </summary>
 
@@ -56,14 +56,14 @@ onMounted(async () => {
           @click="$router.push({ name: 'options' })"
           class="w-full my-4 px-6 py-3 text-sm font-medium text-center tracking-wide text-white transition-colors duration-300 transform bg-primary-500 rounded-md hover:bg-primary-400 focus:outline-none focus:ring focus:ring-primary-300 focus:ring-opacity-50"
         >
-          Open options
+          {{ $t('home.options.button') }}
         </button>
       </details>
 
       <details class="group py-2">
         <summary class="flex cursor-pointer items-center text-gray-500 dark:text-gray-400">
           <span class="h-px flex-1 bg-gray-300"></span>
-          <span class="shrink-0 px-6 uppercase">GPT API KEY</span>
+          <span class="shrink-0 px-6 uppercase">{{ $t('home.apikey.text') }}</span>
           <span class="h-px flex-1 bg-gray-300"></span>
         </summary>
         <button
@@ -71,7 +71,7 @@ onMounted(async () => {
           @click="onResetHandler"
           class="group my-4 flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 hover:bg-orange-600 shadow-sm px-5 py-3 text-white transition focus:outline-none"
         >
-          <span class="text-sm font-medium"> Reset API Key </span>
+          <span class="text-sm font-medium"> {{ $t('home.apikey.button') }} </span>
         </button>
       </details>
     </div>
