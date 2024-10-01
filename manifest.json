@@ -18,7 +18,7 @@
   "host_permissions": ["*://web.telegram.org/a/*"],
 
   "background": {
-    "service_worker": "src/asst.worker.js"
+    "service_worker": "src/scripts/asst.worker.js"
   },
 
   "action": {
@@ -32,14 +32,19 @@
   "content_scripts": [
     {
       "matches": ["*://web.telegram.org/a/*"],
-      "js": ["src/asst.extension.js"],
+      "js": ["src/scripts/asst.extension.js", "src/scripts/asst.telegram.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://web.whatsapp.com/*"],
+      "js": ["src/scripts/asst.extension.js", "src/scripts/asst.whatsapp.js"],
       "run_at": "document_end"
     }
   ],
 
   "web_accessible_resources": [
     {
-      "resources": ["icons/*", "images/*"],
+      "resources": ["css/*", "icons/*", "images/*"],
       "matches": ["<all_urls>"]
     }
   ],

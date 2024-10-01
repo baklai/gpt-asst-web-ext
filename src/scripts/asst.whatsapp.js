@@ -1,4 +1,4 @@
-/* TELEGRAM WEB */
+/* WTATSAPP WEB */
 
 import { Assistant } from './asst.extension';
 
@@ -85,7 +85,7 @@ import { Assistant } from './asst.extension';
       });
     });
 
-    layoutObserver.observe(document.body, { childList: true, subtree: true });
+    // layoutObserver.observe(document.body, { childList: true, subtree: true });
 
     const { name, description, version } = chrome.runtime.getManifest();
 
