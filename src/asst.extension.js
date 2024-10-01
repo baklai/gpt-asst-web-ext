@@ -255,7 +255,6 @@ async function browserRuntimeSendMessage({ action, chatid, message }) {
                 const element = node.querySelector('div#message-input-text');
                 if (element) {
                   const button = document.createElement('button');
-                  button.textContent = '✨';
                   button.style.fontSize = '24px';
                   button.dataset.status = 'closed';
                   button.setAttribute('type', 'button');
@@ -263,17 +262,37 @@ async function browserRuntimeSendMessage({ action, chatid, message }) {
                   button.setAttribute('aria-label', 'Run/Stop GPT Assistant');
                   button.setAttribute('title', 'Run/Stop GPT Assistant');
 
+                  const btnImage = document.createElement('img');
+                  const iconUrl = chrome.runtime.getURL('images/icon-32-gray.png');
+                  btnImage.src = iconUrl;
+                  btnImage.width = 28;
+                  btnImage.height = 28;
+
+                  button.appendChild(btnImage);
+
+                  button.addEventListener('mouseenter', () => {
+                    const iconUrl = chrome.runtime.getURL('images/icon-32-white.png');
+                    btnImage.src = iconUrl;
+                  });
+
+                  button.addEventListener('mouseleave', () => {
+                    const iconUrl = chrome.runtime.getURL('images/icon-32-gray.png');
+                    btnImage.src = iconUrl;
+                  });
+
                   button.addEventListener('click', async event => {
-                    if (event.target.dataset.status === 'closed') {
+                    const buttonTarget = event.currentTarget;
+
+                    if (buttonTarget.dataset.status === 'closed') {
                       await assistant?.opened();
-                      button.dataset.status = 'opened';
-                      event.target.textContent = '⏹️';
+                      buttonTarget.dataset.status = 'opened';
+                      buttonTarget.textContent = '⏹️';
                     } else {
                       assistant?.closed();
-                      button.dataset.status = 'closed';
-                      event.target.textContent = '▶️';
+                      buttonTarget.dataset.status = 'closed';
+                      buttonTarget.textContent = '▶️';
                     }
-                    event.target.blur();
+                    buttonTarget.blur();
                   });
 
                   element.parentNode.parentNode.parentNode.appendChild(button);
