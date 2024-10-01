@@ -41,7 +41,9 @@ onMounted(async () => {
       <details class="group py-2">
         <summary class="flex cursor-pointer items-center text-gray-500 dark:text-gray-400">
           <span class="h-px flex-1 bg-gray-300"></span>
-          <span class="shrink-0 px-6 uppercase">{{ $t('home.options.text') }}</span>
+          <span class="shrink-0 px-6 uppercase font-medium hover:text-primary-400">
+            {{ $t('home.options.text') }}
+          </span>
           <span class="h-px flex-1 bg-gray-300"></span>
         </summary>
 
@@ -63,7 +65,9 @@ onMounted(async () => {
       <details class="group py-2">
         <summary class="flex cursor-pointer items-center text-gray-500 dark:text-gray-400">
           <span class="h-px flex-1 bg-gray-300"></span>
-          <span class="shrink-0 px-6 uppercase">{{ $t('home.apikey.text') }}</span>
+          <span class="shrink-0 px-6 uppercase font-medium hover:text-primary-400">
+            {{ $t('home.apikey.text') }}
+          </span>
           <span class="h-px flex-1 bg-gray-300"></span>
         </summary>
         <button
