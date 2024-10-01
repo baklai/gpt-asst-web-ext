@@ -259,26 +259,29 @@ async function browserRuntimeSendMessage({ action, chatid, message }) {
                   button.dataset.status = 'closed';
                   button.setAttribute('type', 'button');
                   button.setAttribute('class', 'Button default secondary round click-allowed');
-                  button.setAttribute('aria-label', 'Run/Stop GPT Assistant');
-                  button.setAttribute('title', 'Run/Stop GPT Assistant');
+                  button.setAttribute('aria-label', 'GPT Assistant');
+                  button.setAttribute('title', 'GPT Assistant');
 
                   const btnImage = document.createElement('img');
-                  const iconUrl = chrome.runtime.getURL('images/icon-32-gray.png');
+                  const iconUrl = chrome.runtime.getURL('images/logo.svg');
+
                   btnImage.src = iconUrl;
-                  btnImage.width = 28;
-                  btnImage.height = 28;
+                  btnImage.style.filter =
+                    'invert(61%) sepia(0%) saturate(0%) hue-rotate(184deg) brightness(90%) contrast(89%)';
+                  btnImage.style.transition = 'filter 0.3s ease';
+                  btnImage.width = 24;
+                  btnImage.height = 24;
+
+                  button.addEventListener('mouseover', () => {
+                    btnImage.style.filter = 'invert(100%)';
+                  });
+
+                  button.addEventListener('mouseout', () => {
+                    btnImage.style.filter =
+                      'invert(61%) sepia(0%) saturate(0%) hue-rotate(184deg) brightness(90%) contrast(89%)';
+                  });
 
                   button.appendChild(btnImage);
-
-                  button.addEventListener('mouseenter', () => {
-                    const iconUrl = chrome.runtime.getURL('images/icon-32-white.png');
-                    btnImage.src = iconUrl;
-                  });
-
-                  button.addEventListener('mouseleave', () => {
-                    const iconUrl = chrome.runtime.getURL('images/icon-32-gray.png');
-                    btnImage.src = iconUrl;
-                  });
 
                   button.addEventListener('click', async event => {
                     const buttonTarget = event.currentTarget;
