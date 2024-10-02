@@ -5,10 +5,22 @@ import { Assistant } from './asst.extension';
 (async function () {
   try {
     const storage = await chrome.storage.local.get(['asst-apikey']);
+    const manifest = chrome.runtime.getManifest();
 
-    const assistant = new Assistant({ apiKey: storage['asst-apikey'] });
+    const assistant = new Assistant({
+      apiKey: storage['asst-apikey'],
+      name: manifest.name,
+      description: manifest.description,
+      version: manifest.version,
+      selectors: {
+        messages: 'div.messages-container',
+        message: '.message-list-item:not(.own) div.text-content',
+        input: 'div#editable-message-text',
+        button: 'button.main-button.click-allowed'
+      }
+    });
 
-    const layoutObserver = new MutationObserver(mutationsList => {
+    const observer = new MutationObserver(mutationsList => {
       mutationsList.forEach(mutation => {
         if (mutation.type === 'childList') {
           if (mutation.addedNodes.length > 0) {
@@ -49,7 +61,7 @@ import { Assistant } from './asst.extension';
                     const buttonTarget = event.currentTarget;
 
                     if (buttonTarget.dataset.status === 'closed') {
-                      await assistant?.opened();
+                      assistant?.opened();
                       buttonTarget.dataset.status = 'opened';
                       buttonTarget.textContent = '⏹️';
                     } else {
@@ -85,7 +97,7 @@ import { Assistant } from './asst.extension';
       });
     });
 
-    layoutObserver.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, { childList: true, subtree: true });
   } catch (err) {
     console.error(err);
   }
