@@ -86,10 +86,6 @@ import { Assistant } from './asst.extension';
     });
 
     layoutObserver.observe(document.body, { childList: true, subtree: true });
-
-    const { name, description, version } = chrome.runtime.getManifest();
-
-    assistant.bage(name, description, version);
   } catch (err) {
     console.error(err);
   }

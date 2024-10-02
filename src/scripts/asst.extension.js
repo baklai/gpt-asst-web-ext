@@ -7,44 +7,62 @@ class Logger {
 
   log(...args) {
     return console.log(
-      `%c🤖 [ASST] LOG %c[${dateTimeToStr(new Date())}] %c${args}`,
-      'color: black; font-size: 1rem; font-weight: bold;',
-      'color: gray;',
-      'color: black;'
+      `%c🤖 [ASST] %c[${dateTimeToStr(new Date())}] %c${args}`,
+      'color: black; font-size: 0.75rem; font-weight: bold;',
+      'color: gray; font-size: 0.75rem;',
+      'font-size: 0.75rem;'
     );
   }
 
   info(...args) {
     return console.log(
-      `%c🤖 [ASST] INFO %c[${dateTimeToStr(new Date())}] %c${args}`,
-      'color: blue; font-size: 1rem; font-weight: bold;',
-      'color: gray;',
-      'color: black;'
+      `%c🤖 [ASST] %c[${dateTimeToStr(new Date())}] %c${args}`,
+      'color: #0ea5e9; font-size: 0.75rem; font-weight: bold;',
+      'color: gray; font-size: 0.75rem;',
+      'font-size: 0.75rem;'
     );
   }
 
   warn(...args) {
     return console.log(
-      `%c🤖 [ASST] WARN %c[${dateTimeToStr(new Date())}] %c${args}`,
-      'color: #3390ec; font-size: 1rem; font-weight: bold;',
-      'color: gray;',
-      'color: black;'
+      `%c🤖 [ASST] %c[${dateTimeToStr(new Date())}] %c${args}`,
+      'color: tomato; font-size: 0.75rem; font-weight: bold;',
+      'color: gray; font-size: 0.75rem;',
+      'font-size: 0.75rem;'
     );
   }
 
   error(...args) {
     return console.log(
-      `%c🤖 [ASST] ERROR %c[${dateTimeToStr(new Date())}] %c${args}`,
-      'color: red; font-size: 1rem; font-weight: bold;',
-      'color: gray;',
-      'color: black;'
+      `%c🤖 [ASST] %c[${dateTimeToStr(new Date())}] %c${args}`,
+      'color: red; font-size: 0.75rem; font-weight: bold;',
+      'color: gray; font-size: 0.75rem;',
+      'font-size: 0.75rem;'
     );
   }
+}
+
+export function pause(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function randomRange(min, max) {
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
+}
+
+export function dateTimeToStr(value) {
+  return value ? new Date(value).toLocaleString() : value;
 }
 
 export class Assistant extends Logger {
   constructor({ apiKey = null }) {
     super();
+
+    this.name = null;
+    this.description = null;
+    this.version = null;
 
     this.chatid = null;
     this.observer = null;
@@ -55,23 +73,12 @@ export class Assistant extends Logger {
 
     this.isObserving = false;
 
-    this.clear();
+    this.initialization();
 
-    this.initChstObserver();
+    this.initChatObserver();
   }
 
-  bage(name = 'Assistant', description = '', version = '') {
-    console.group(`🤖 ${name}`);
-    console.log(
-      `%c${name}\n%c${description}\n%cv${version}`,
-      'color: #3390ec; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; display: block; padding: 10px 0 10px 0;',
-      'color: gray; font-size: 1rem; display: block; padding: 10px 0 10px 0;',
-      'color: gray; font-size: 1rem; display: block; width: 100%; padding-bottom: 10px;'
-    );
-    console.groupEnd();
-  }
-
-  async opened() {
+  opened() {
     if (!this.isObserving) {
       if (!window.location.hash) return;
 
@@ -85,7 +92,9 @@ export class Assistant extends Logger {
 
       this.observer.observe(containerEl, {
         childList: true,
-        subtree: true
+        subtree: true,
+        attributes: false,
+        characterData: false
       });
 
       this.isObserving = true;
@@ -94,7 +103,7 @@ export class Assistant extends Logger {
 
   closed() {
     if (this.isObserving) {
-      if (this.chatid) this.warn(`CHAT ID [${this.chatid}] CLOSED`);
+      if (this.chatid) this.info(`CHAT ID [${this.chatid}] CLOSED`);
       if (this.observer) this.observer.disconnect();
 
       this.isObserving = false;
@@ -102,11 +111,26 @@ export class Assistant extends Logger {
     }
   }
 
-  status() {
-    return this.isObserving;
+  initialization() {
+    const { name = 'GPT Assistant', description = '', version = '' } = chrome.runtime.getManifest();
+
+    this.name = name;
+    this.description = description;
+    this.version = version;
+
+    console.clear();
+
+    console.group(`🤖 ${name}`);
+    console.log(
+      `%c${name}%c v${version}\n%c${description}`,
+      'color: #0ea5e9; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; display: block; width: 100%; padding: 10px 0 10px 10px;',
+      'color: gray; font-size: 1rem; display: block;',
+      'color: gray; font-size: 1rem; display: block; padding: 0 0 10px 10px;'
+    );
+    console.groupEnd();
   }
 
-  initChstObserver() {
+  initChatObserver() {
     this.observer = new MutationObserver(mutationsList => {
       mutationsList.forEach(mutation => {
         if (mutation.type === 'childList') {
@@ -147,7 +171,7 @@ export class Assistant extends Logger {
     const message = this.messages.shift();
 
     try {
-      const { message: responseMessage } = await browserRuntimeSendMessage({
+      const { message: responseMessage } = await this.browserRuntimeSendMessage({
         action: 'mgs-from-webtg',
         chatid: this.chatid,
         message
@@ -165,7 +189,7 @@ export class Assistant extends Logger {
   async publishMessage(message) {
     const inputMessageEl = document.querySelector('div#editable-message-text');
     if (inputMessageEl) {
-      await simulateTyping(inputMessageEl, message);
+      await this.simulateTyping(inputMessageEl, message);
 
       const sendBtnEl = document.querySelector('button.main-button.click-allowed');
       if (sendBtnEl) {
@@ -175,67 +199,53 @@ export class Assistant extends Logger {
       }
     }
   }
-}
 
-function pause(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+  async simulateTyping(element, value, delay = 200) {
+    element.focus();
+    element.click();
+    element.textContent = '';
+    const selection = window.getSelection();
+    const range = document.createRange();
 
-function randomRange(min, max) {
-  const minCeiled = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
-}
+    for (let char of value) {
+      element.textContent += char;
+      range.setStart(element.childNodes[0], element.textContent.length);
+      range.setEnd(element.childNodes[0], element.textContent.length);
+      selection.removeAllRanges();
+      selection.addRange(range);
 
-function dateTimeToStr(value) {
-  return value ? new Date(value).toLocaleString() : value;
-}
+      const keydownEvent = new KeyboardEvent('keydown', {
+        bubbles: true,
+        cancelable: true,
+        key: char
+      });
+      element.dispatchEvent(keydownEvent);
 
-async function simulateTyping(element, value, delay = 200) {
-  element.focus();
-  element.click();
-  element.textContent = '';
-  const selection = window.getSelection();
-  const range = document.createRange();
+      const inputEvent = new InputEvent('input', {
+        bubbles: true,
+        cancelable: true,
+        data: char
+      });
+      element.dispatchEvent(inputEvent);
 
-  for (let char of value) {
-    element.textContent += char;
-    range.setStart(element.childNodes[0], element.textContent.length);
-    range.setEnd(element.childNodes[0], element.textContent.length);
-    selection.removeAllRanges();
-    selection.addRange(range);
+      const keyupEvent = new KeyboardEvent('keyup', {
+        bubbles: true,
+        cancelable: true,
+        key: char
+      });
+      element.dispatchEvent(keyupEvent);
 
-    const keydownEvent = new KeyboardEvent('keydown', {
-      bubbles: true,
-      cancelable: true,
-      key: char
-    });
-    element.dispatchEvent(keydownEvent);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
 
-    const inputEvent = new InputEvent('input', {
-      bubbles: true,
-      cancelable: true,
-      data: char
-    });
-    element.dispatchEvent(inputEvent);
-
-    const keyupEvent = new KeyboardEvent('keyup', {
-      bubbles: true,
-      cancelable: true,
-      key: char
-    });
-    element.dispatchEvent(keyupEvent);
-
-    await new Promise(resolve => setTimeout(resolve, delay));
+    element.blur();
   }
 
-  element.blur();
-}
-
-async function browserRuntimeSendMessage({ action, chatid, message }) {
-  try {
-    return await chrome.runtime.sendMessage({ action, chatid, message });
-  } catch (err) {
-    throw new Error(err.message);
+  async browserRuntimeSendMessage({ action, chatid, message }) {
+    try {
+      return await chrome.runtime.sendMessage({ action, chatid, message });
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
 }
