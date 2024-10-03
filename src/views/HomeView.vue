@@ -5,10 +5,7 @@ import { useAsst } from '@/stores/asst.store';
 
 const asst = useAsst();
 
-const BTN_TABS = ref([
-  { title: 'Telegram Web', url: 'https://web.telegram.org/a/' },
-  { title: 'WhatsApp Web', url: 'https://web.whatsapp.com/' }
-]);
+const BTN_TABS = ref([{ title: 'Telegram Web', url: 'https://web.telegram.org/a/' }]);
 
 const content = ref(null);
 

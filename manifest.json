@@ -34,11 +34,6 @@
       "matches": ["*://web.telegram.org/a/*"],
       "js": ["src/scripts/asst.extension.js", "src/scripts/asst.telegram.js"],
       "run_at": "document_end"
-    },
-    {
-      "matches": ["*://web.whatsapp.com/*"],
-      "js": ["src/scripts/asst.extension.js", "src/scripts/asst.whatsapp.js"],
-      "run_at": "document_end"
     }
   ],
 

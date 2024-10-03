@@ -122,8 +122,10 @@ export class Assistant extends Logger {
             mutation.addedNodes.forEach(node => {
               if (node.nodeType === Node.ELEMENT_NODE) {
                 const element = node.querySelector(this.selectors.message);
+
                 if (element) {
                   const clonedElement = element.cloneNode(true);
+
                   clonedElement.querySelectorAll('span').forEach(span => span.remove());
                   const textContent = clonedElement.textContent.trim();
                   if (textContent) {
