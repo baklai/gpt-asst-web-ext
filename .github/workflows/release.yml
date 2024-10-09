@@ -1,0 +1,50 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          npm version patch
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Archive build files
+        run: |
+          zip -r release.zip dist/*
+
+      - name: Create or Update Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.bump_version.outputs.new_version }}
+          files: release.zip
+          name: Release ${{ steps.bump_version.outputs.new_version }}
+          body: |
+            Автоматично оновлений реліз до версії ${{ steps.bump_version.outputs.new_version }}.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push version tag
+        run: git push origin ${{ steps.bump_version.outputs.new_version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
