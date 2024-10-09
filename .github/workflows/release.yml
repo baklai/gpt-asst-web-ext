@@ -1,9 +1,9 @@
-name: Build Electronics Project
+name: Build Chrome Extension
 
 on:
   push:
     branches:
-      - main  # Замість "main" вкажіть вашу основну гілку
+      - main  # Измените на вашу основную ветку
 
 jobs:
   build:
@@ -13,25 +13,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: Set up Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Явно указываем версию Node.js 16
+
+      - name: Log Node.js and npm versions
         run: |
-          sudo apt-get install -y <пакети>  # Встановіть необхідні пакети для вашого проекту
+          node -v
+          npm -v
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Build project
-        run: |
-          <ваша команда для збірки>  # Замените на вашу команду, наприклад, make, platformio, і т.д.
+        run: npm run build  # Замените на вашу команду сборки
 
       - name: Archive build files
-        run: |
-          zip -r release.zip <шлях до ваших артефактів>  # Архівуйте результати зборки
+        run: zip -r release.zip ./dist  # Архивируем папку с результатами сборки
 
-      - name: Create Release
+      - name: Create or Update Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: latest  # Або використовуйте автоматичне збільшення версії
-          files: release.zip  # Вказуємо файл архіву
-          name: Latest Release  # Назва релізу
+          tag_name: latest  # Используем тег "latest" или настройте автоматическое увеличение версии
+          files: release.zip  # Указываем файл архива
+          name: Chrome Extension Release  # Название релиза
           body: |
-            Автоматично оновлений реліз з останніми змінами в електронному проекті.
+            Автоматический релиз с последними изменениями.
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Токен для доступу до API GitHub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Используем встроенный токен GitHub
