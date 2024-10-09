@@ -1,9 +1,9 @@
-name: Build and Release
+name: Build Electronics Project
 
 on:
   push:
     branches:
-      - main
+      - main  # Замість "main" вкажіть вашу основну гілку
 
 jobs:
   build:
@@ -13,36 +13,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-
       - name: Install dependencies
-        run: npm install
-
-      - name: Bump version
-        id: bump_version
         run: |
-          npm version patch
+          sudo apt-get install -y <пакети>  # Встановіть необхідні пакети для вашого проекту
 
-      - name: Build extension
-        run: npm run build
+      - name: Build project
+        run: |
+          <ваша команда для збірки>  # Замените на вашу команду, наприклад, make, platformio, і т.д.
 
       - name: Archive build files
         run: |
-          zip -r release.zip dist/*
+          zip -r release.zip <шлях до ваших артефактів>  # Архівуйте результати зборки
 
-      - name: Create or Update Release
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.bump_version.outputs.new_version }}
-          files: release.zip
-          name: Release ${{ steps.bump_version.outputs.new_version }}
+          tag_name: latest  # Або використовуйте автоматичне збільшення версії
+          files: release.zip  # Вказуємо файл архіву
+          name: Latest Release  # Назва релізу
           body: |
-            Автоматично оновлений реліз до версії ${{ steps.bump_version.outputs.new_version }}.
+            Автоматично оновлений реліз з останніми змінами в електронному проекті.
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push version tag
-        run: git push origin ${{ steps.bump_version.outputs.new_version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Токен для доступу до API GitHub
