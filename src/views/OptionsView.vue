@@ -9,14 +9,6 @@ const contents = ref([]);
 
 const detailsIndex = ref();
 
-const onOpenHandler = index => {
-  if (detailsIndex.value && detailsIndex.value === index) {
-    detailsIndex.value = null;
-  } else {
-    detailsIndex.value = index;
-  }
-};
-
 watch(
   contents,
   newValue => {
