@@ -27,16 +27,12 @@ jobs:
       - name: Archive build files
         run: zip -r gpt-asst-web.zip ./dist/*
 
-      - name: Get version from package.json
-        id: get_version
-        run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
-
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ env.VERSION }}
-          release_name: Release ${{ env.VERSION }}
+          tag_name: 'v1.0.0'
+          release_name: Release v1.0.0
           body: Automatic release with latest changes.
           draft: false
           prerelease: false
