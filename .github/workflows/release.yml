@@ -31,7 +31,7 @@ jobs:
         uses: actions/create-release@v1
         with:
           tag_name: main
-          release_name: Chrome Extension Release - main
+          release_name: Chrome Extension Release
           body: Automatic release with latest changes.
           draft: false
           prerelease: false
