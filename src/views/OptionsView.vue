@@ -7,8 +7,6 @@ const asst = useAsst();
 
 const contents = ref([]);
 
-const detailsIndex = ref();
-
 watch(
   contents,
   newValue => {
@@ -24,13 +22,9 @@ onMounted(async () => {
 
 <template>
   <div class="space-y-4 max-h-96 w-full overflow-y-auto p-4">
-    <details
-      class="group"
-      v-for="(item, index) of contents"
-      :key="index"
-      :open="detailsIndex && detailsIndex === index"
-    >
+    <details class="group" v-for="(item, index) of contents" :key="index">
       <summary
+        name="option-item"
         class="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-gray-50 p-4 text-gray-900"
       >
         <h2 :class="['font-medium', { 'text-primary-500': item.content.length }]">
