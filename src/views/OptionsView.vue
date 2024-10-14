@@ -39,7 +39,6 @@ onMounted(async () => {
       :open="detailsIndex && detailsIndex === index"
     >
       <summary
-        @click="onOpenHandler(index)"
         class="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-gray-50 p-4 text-gray-900"
       >
         <h2 :class="['font-medium', { 'text-primary-500': item.content.length }]">
