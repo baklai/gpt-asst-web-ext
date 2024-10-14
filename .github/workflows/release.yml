@@ -24,9 +24,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Archive build files
-        run: zip -r gpt-asst-web.zip ./dist/*
-
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
@@ -43,6 +40,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./gpt-asst-web.zip
+          asset_path: ./dist/*
           asset_name: gpt-asst-web.zip
           asset_content_type: application/zip
