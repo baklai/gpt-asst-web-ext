@@ -27,15 +27,23 @@ jobs:
       - name: Archive build files
         run: zip -r gpt-asst-web-ext.zip ./dist/*
 
-      - name: Create or Update Release
-        uses: softprops/action-gh-release@v1
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
         with:
-          tag_name: ${{ github.sha }}
-          files: gpt-asst-web-ext.zip
-          name: Chrome Extension Release
-          body: |
-            Automatic release with latest changes.
+          tag_name: ${{ github.ref_name }}
+          release_name: Chrome Extension Release - ${{ github.ref_name }}
+          body: Automatic release with latest changes.
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gpt-asst-web-ext.zip
+          asset_name: gpt-asst-web-ext.zip
+          asset_content_type: application/zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
