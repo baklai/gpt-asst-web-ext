@@ -21,7 +21,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="space-y-4 max-h-96 w-full overflow-y-auto p-4">
+  <div class="max-h-96 w-full space-y-4 overflow-y-auto p-4">
     <details class="group" v-for="(item, index) of contents" :key="index">
       <summary
         name="option-item"
@@ -51,7 +51,7 @@ onMounted(async () => {
         rows="3"
         v-model="item.content"
         :placeholder="$t(item.title)"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+        class="mt-2 block w-full rounded-md border border-gray-200 bg-white px-5 py-3 text-gray-700 placeholder-gray-400 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-600 dark:focus:border-blue-400"
       ></textarea>
 
       <small class="break-all text-gray-700">{{ $t('Details') }} : {{ $t(item.example) }}</small>

@@ -23,15 +23,15 @@ const FOLLOW_LINKS = [
 </script>
 
 <template>
-  <main class="min-h-screen bg-white dark:bg-gray-900 lg:flex">
+  <main class="min-h-screen bg-white lg:flex dark:bg-gray-900">
     <header
-      class="flex flex-col justify-center w-full p-8 lg:bg-gray-100 lg:dark:bg-gray-800 lg:p-12 lg:w-1/2"
+      class="flex w-full flex-col justify-center p-8 lg:w-1/2 lg:bg-gray-100 lg:p-12 lg:dark:bg-gray-800"
     >
-      <div class="flex flex-row items-start justify-center m-auto">
+      <div class="m-auto flex flex-row items-start justify-center">
         <img
           src="/icons/icon-96.png"
           alt="logo"
-          class="hidden lg:flex items-start mr-4"
+          class="mr-4 hidden items-start lg:flex"
           height="96"
           width="96"
         />
@@ -41,40 +41,40 @@ const FOLLOW_LINKS = [
             <img
               src="/icons/icon-32.png"
               alt="logo"
-              class="flex items-start mr-2 lg:hidden"
+              class="mr-2 flex items-start lg:hidden"
               height="32"
               width="32"
             />
             <h1
-              class="text-2xl font-semibold uppercase text-primary-500 dark:text-white lg:text-3xl"
+              class="text-2xl font-semibold uppercase text-primary-500 lg:text-3xl dark:text-white"
             >
               {{ $t('ext.title') }}
             </h1>
           </div>
 
-          <p class="text-center lg:text-start mt-4 max-w-[25rem] text-gray-500 dark:text-gray-400">
+          <p class="mt-4 max-w-[25rem] text-center text-gray-500 lg:text-start dark:text-gray-400">
             {{ $t('ext.description') }}
           </p>
 
-          <nav class="flex flex-wrap justify-around lg:justify-start gap-4 py-4">
+          <nav class="flex flex-wrap justify-around gap-4 py-4 lg:justify-start">
             <RouterLink
               v-for="link of NAV_LIKS"
               :to="{ name: link.name }"
-              class="font-bold uppercase dark:hover:text-primary-400 text-gray-400 transition-colors duration-300 transform hover:text-primary-500"
+              class="transform font-bold uppercase text-gray-400 transition-colors duration-300 hover:text-primary-500 dark:hover:text-primary-400"
             >
               {{ link.title }}
             </RouterLink>
           </nav>
 
-          <div class="mt-6 md:mt-8 hidden lg:block flex-wrap gap-4 py-4">
-            <div class="flex gap-4 mt-4">
+          <div class="mt-6 hidden flex-wrap gap-4 py-4 md:mt-8 lg:block">
+            <div class="mt-4 flex gap-4">
               <a
-                class="mx-1.5 dark:hover:text-primary-400 text-gray-400 transition-colors duration-300 transform hover:text-primary-500"
+                class="mx-1.5 transform text-gray-400 transition-colors duration-300 hover:text-primary-500 dark:hover:text-primary-400"
                 target="_blank"
                 :href="item.href"
                 v-for="item of FOLLOW_LINKS"
               >
-                <component :is="item.icon" class="w-6 h-6"></component>
+                <component :is="item.icon" class="h-6 w-6"></component>
               </a>
             </div>
           </div>
@@ -83,7 +83,7 @@ const FOLLOW_LINKS = [
     </header>
 
     <section
-      class="flex flex-col justify-center items-center m-auto max-w-[30rem] px-8 lg:w-1/2 lg:px-12"
+      class="m-auto flex max-w-[30rem] flex-col items-center justify-center px-8 lg:w-1/2 lg:px-12"
     >
       <RouterView />
     </section>

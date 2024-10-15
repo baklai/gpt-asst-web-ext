@@ -17,7 +17,7 @@ const onSaveHandler = async () => {
     <div class="mx-auto max-w-lg text-center">
       <h2 class="text-2xl font-bold text-gray-500 md:text-3xl">OpenAI API Key</h2>
 
-      <p class="block mt-4 text-gray-500">
+      <p class="mt-4 block text-gray-500">
         <a href="https://platform.openai.com/api-keys" target="_blank" class="text-primary-500">
           {{ $t('apikey.description.link') }}
         </a>
@@ -34,19 +34,19 @@ const onSaveHandler = async () => {
             type="password"
             v-model="inputValue"
             :placeholder="$t('apikey.placeholder')"
-            class="w-full p-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md shadow-sm dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+            class="w-full rounded-md border border-gray-200 bg-white p-3 text-gray-700 placeholder-gray-400 shadow-sm focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-600 dark:focus:border-blue-400"
           />
         </div>
 
         <button
           type="button"
           @click="onSaveHandler"
-          class="group mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-primary-500 hover:bg-primary-400 shadow-sm px-5 py-3 text-white transition focus:outline-none focus:ring focus:ring-primary-300 focus:ring-opacity-50 sm:mt-0 sm:w-auto"
+          class="group mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-primary-500 px-5 py-3 text-white shadow-sm transition hover:bg-primary-400 focus:outline-none focus:ring focus:ring-primary-300 focus:ring-opacity-50 sm:mt-0 sm:w-auto"
         >
           <span class="text-sm font-medium"> {{ $t('apikey.button') }} </span>
         </button>
       </div>
-      <p class="mt-3 text-xs text-center text-gray-400 dark:text-gray-600">
+      <p class="mt-3 text-center text-xs text-gray-400 dark:text-gray-600">
         {{ $t('apikey.comment') }}
       </p>
     </div>
